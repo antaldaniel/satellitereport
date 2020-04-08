@@ -35,7 +35,7 @@ all_geo_codes <- all_geo_codes [!is.na(all_geo_codes)]
 
 test_intervals <- data.frame (
   geo = all_geo_codes,
-  values = rnorm(length(all_geo_codes ), mean = 50, sd = 15),
+  values = rnorm(length(all_geo_codes), mean = 50, sd = 15),
   row.names = NULL
 )
 
