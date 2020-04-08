@@ -21,7 +21,7 @@ create_color_palette(
 \item{reverse_scale}{Defaults to \code{FALSE}.}
 }
 \description{
-This is a wrapper around \code{\link[grDevices]{colorRampPalette}}.
+This is a wrapper around \code{\link[grDevices]{colorRamp}}.
 The default colors are taken from \code{\link{sr_palette}}.
 }
 \examples{
