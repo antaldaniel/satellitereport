@@ -1,0 +1,18 @@
+Package: satellitereport
+Type: Package
+Title: SatelliteReport Helper Functions
+Version: 0.1.0
+Author: Daniel Antal
+Maintainer: Daniel Antal <daniel.antal@satellitereport.com>
+Description: Some helper functions to facilitate collaboration with satelliterport.com.
+License: CCBY-4.0
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr,
+    forcats,
+    classInt,
+    grDevices,
+    ggplot2,
+    magrittr
+RoxygenNote: 7.1.0
