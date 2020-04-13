@@ -16,6 +16,7 @@
 #' @return A character vector containing the category labels.
 #' @importFrom classInt classIntervals
 #' @importFrom forcats fct_relevel
+#' @family utility functions
 #' @export
 #' @examples{
 #' indicator_categories(1:7, n=2)

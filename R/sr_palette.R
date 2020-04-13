@@ -3,10 +3,12 @@
 #' @param ext Should the original 12 color palette be extended? Defaults
 #' to \code{FALSE}.
 #' @return The SatellitReport color palette designed by Endre Koronczi.
-#' examples{
+#' @family visualisation functions
+#' @examples{
 #' sr_palette()
 #' sr_palette(ext=TRUE)
 #' }
+#' @export
 
 sr_palette <- function ( ext = FALSE) {
   my_palette <- c("#007CBB", "#4EC0E4", "#00843A", "#3EA135",

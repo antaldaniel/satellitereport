@@ -47,12 +47,13 @@
 #' @importFrom dplyr mutate filter select add_count inner_join
 #' @importFrom dplyr rename full_join anti_join left_join
 #' @importFrom dplyr mutate_if
+#' @importFrom poorman left_join
 #' @importFrom magrittr `%>%`
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 ggplot aes geom_sf scale_fill_manual
 #' @importFrom ggplot2 labs theme_light theme guides coord_sf
 #' @importFrom ggplot2 element_blank xlim ylim guide_legend
-#' @importFrom forcats fct_explicit_na
+#' @importFrom forcats fct_explicit_na fct_relevel
 #' @return The function returns a \code{ggplot2} object. You can modify the
 #' ggplot object, for example, with adding {labs}.
 #' @family visualisation functions
@@ -115,9 +116,6 @@ create_choropleth <- function ( dat,
            style = style,
            print_style = print_style)
 
-      check <- add_to_map %>%
-        add_count( as.factor(cat) )
-
       unique_cats <- levels(add_to_map$cat)[levels(add_to_map$cat)!= "missing"]
 
       if ( is.null(color_palette)) {
@@ -131,11 +129,12 @@ create_choropleth <- function ( dat,
     type <- 'discrete'
     cats <- unique ( add_to_map$values)
     add_to_map$cat <- add_to_map$values
-    add_to_map$cat <- ifelse(is.na(add_to_map$values), "missing", add_to_map$cat)
+    add_to_map$cat <- forcats::fct_explicit_na(add_to_map$cat,
+                                               na_level = 'missing')
 
     unique_cats <- unique(add_to_map$cat)[unique(add_to_map$cat)!='missing']
 
-    add_to_map$cat <- as.factor(add_to_map$cat)
+    levels ( add_to_map$cat)
     if ( is.null(color_palette) ) {
       color_palette <- create_color_palette(n=length(unique_cats))
     }
@@ -165,8 +164,8 @@ create_choropleth <- function ( dat,
   add_to_map <- add_to_map %>%
     dplyr::filter( geo %in% nuts_ids )
 
-  geodata <- geodata %>%
-    dplyr::inner_join(add_to_map, by = 'geo')
+  geodata<- geodata %>%
+    poorman::left_join(add_to_map, by = 'geo')
 
   ## formating text and legends ----------------------------------------
   unit_text <- if ( is.null(unit_text) ) { unit_text <- ""} else {
@@ -203,12 +202,16 @@ create_choropleth <- function ( dat,
         color_palette <- color_palette[color_palette != na_color]
         color_palette <- c(na_color, color_palette)
          if ( levels(geodata$cat)[1] != "missing" ) {
-           levels(add_to_map$cat) <- c("missing", levels(add_to_map$cat)[levels(add_to_map$cat)!='missing'])
+           levels(geodata$cat) <- c("missing", levels(geodata$cat)[levels(geodata$cat)!='missing'])
          }
-        names(color_palette) <- levels(add_to_map$cat)
+        names(color_palette) <- levels(geodata$cat)
       } # end of case when color palette does not match all factor levels
 
     }
+
+    geodata$cat <- forcats::fct_relevel(geodata$cat,
+                                        levels (geodata$cat)[levels(geodata$cat)!='missing']
+    )
 
     base_plot_cat <- geodata %>%
       ggplot(data=.) +
@@ -217,7 +220,8 @@ create_choropleth <- function ( dat,
                ) +
       scale_fill_manual(values = color_palette,
                         na.value = na_color) +
-      guides(fill = guide_legend(reverse=F, title = unit_text)) +
+      guides(fill = guide_legend(reverse=FALSE,
+                                 title = unit_text)) +
       theme_light() +
       theme(legend.position='right',
             axis.text = element_blank(),
@@ -241,7 +245,8 @@ create_choropleth <- function ( dat,
                                       high = max_color,
                                       na.value = na_color )
       ) +
-      guides(fill = guide_legend(reverse=F, title = unit_text)) +
+      guides(fill = guide_legend(reverse=FALSE,
+                                 title = unit_text)) +
       theme_light() +
       theme(legend.position='right',
             axis.text = element_blank(),

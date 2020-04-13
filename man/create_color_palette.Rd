@@ -31,5 +31,8 @@ create_color_palette('red', 'white', n=4, reverse_scale =TRUE)
 }
 }
 \seealso{
-sr_palette
+Other visualisation functions: 
+\code{\link{create_choropleth}()},
+\code{\link{sr_palette}()}
 }
+\concept{visualisation functions}

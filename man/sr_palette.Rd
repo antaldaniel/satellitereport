@@ -12,11 +12,19 @@ to \code{FALSE}.}
 }
 \value{
 The SatellitReport color palette designed by Endre Koronczi.
-examples{
-sr_palette()
-sr_palette(ext=TRUE)
-}
 }
 \description{
 SR Color Palette
 }
+\examples{
+{
+sr_palette()
+sr_palette(ext=TRUE)
+}
+}
+\seealso{
+Other visualisation functions: 
+\code{\link{create_choropleth}()},
+\code{\link{create_color_palette}()}
+}
+\concept{visualisation functions}

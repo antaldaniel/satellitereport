@@ -11,6 +11,7 @@ create_choropleth(
   geo_var = "geo",
   values_var = "values",
   type = "discrete",
+  show_all_missing = TRUE,
   unit_text = NULL,
   color_palette = NULL,
   na_color = "grey93",
@@ -42,6 +43,12 @@ variables.}
 \item{type}{Defaults to \code{'discrete'} for coloring discrete
 (categorical) values, can be set to \code{'numeric'} for continous
 numeric values.}
+
+\item{show_all_missing}{Defaults to \code{TRUE} when all regions with
+missing values are explicitly shown in the map.  \code{FALSE} shows only
+missing observations in \code{dat}. For example, if your dataset contains
+observations on European Union regions, than it will not contain an
+\code{NA} value or Norwegian regions in the case of \code{FALSE}.}
 
 \item{unit_text}{Defaults to \code{NULL}.}
 
@@ -86,3 +93,9 @@ chreate_choropleth ( your_nuts2_data, level=2, n=5, style="kmeans") +
        subtitle = "Your Subtitle", caption ="Your caption or footnote.")
 }
 }
+\seealso{
+Other visualisation functions: 
+\code{\link{create_color_palette}()},
+\code{\link{sr_palette}()}
+}
+\concept{visualisation functions}
