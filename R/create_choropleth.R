@@ -21,6 +21,11 @@
 #' @param type Defaults to \code{'discrete'} for coloring discrete
 #' (categorical) values, can be set to \code{'numeric'} for continous
 #' numeric values.
+#' @param show_all_missing Defaults to \code{TRUE} when all regions with
+#' missing values are explicitly shown in the map.  \code{FALSE} shows only
+#' missing observations in \code{dat}. For example, if your dataset contains
+#' observations on European Union regions, than it will not contain an
+#' \code{NA} value or Norwegian regions in the case of \code{FALSE}.
 #' @param color_palette A named character vector with colors. If you use this
 #' with categorical variables, make sure that the color_palette has a value
 #' for each categories except for missing values, and it is named to the
@@ -47,8 +52,10 @@
 #' @importFrom ggplot2 ggplot aes geom_sf scale_fill_manual
 #' @importFrom ggplot2 labs theme_light theme guides coord_sf
 #' @importFrom ggplot2 element_blank xlim ylim guide_legend
+#' @importFrom forcats fct_explicit_na
 #' @return The function returns a \code{ggplot2} object. You can modify the
 #' ggplot object, for example, with adding {labs}.
+#' @family visualisation functions
 #' @examples
 #' \dontrun{
 #' chreate_choropleth ( your_nuts2_data, level=2, n=5, style="kmeans") +
@@ -63,6 +70,7 @@ create_choropleth <- function ( dat,
                                 geo_var = 'geo',
                                 values_var = 'values',
                                 type = 'discrete',
+                                show_all_missing = TRUE,
                                 unit_text = NULL,
                                 color_palette = NULL,
                                 na_color = 'grey93',
@@ -176,20 +184,29 @@ create_choropleth <- function ( dat,
     }
   }
 
+  ## Make all missing cases explicit ---------------------------------
+
+  if( show_all_missing & type == 'discrete' ) {
+
+    geodata$cat <- forcats::fct_explicit_na(geodata$cat,
+                                            na_level = "missing")
+
+  }
+
   ## coloring & base map  ---------------------------------------------
   if ( type == 'discrete' ) {
 
-    if ( 'cat' %in% names(add_to_map) ) {
+    if ( 'cat' %in% names(geodata) ) {
 
 
-      if ( ! all(levels(add_to_map$cat) %in% names(color_palette)) ) {
+      if ( ! all(levels(geodata$cat) %in% names(color_palette)) ) {
         color_palette <- color_palette[color_palette != na_color]
         color_palette <- c(na_color, color_palette)
-         if ( levels(add_to_map$cat)[1] != "missing") {
+         if ( levels(geodata$cat)[1] != "missing" ) {
            levels(add_to_map$cat) <- c("missing", levels(add_to_map$cat)[levels(add_to_map$cat)!='missing'])
          }
         names(color_palette) <- levels(add_to_map$cat)
-      }
+      } # end of case when color palette does not match all factor levels
 
     }
 

@@ -48,7 +48,7 @@ create_choropleth ( dat = test_intervals,
                  caption = "This is the caption text")
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-choropleth-1.png" width="100%" />
 
 ## Code of Conduct
 
