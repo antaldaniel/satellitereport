@@ -42,7 +42,7 @@ devtools::install_github("antaldaniel/satellitereport")
 
 This is how you create a choropleth map.
 
-```{r choropleth}
+```{r choropleth }
 library(satellitereport)
 require(eurostat)
 require(dplyr)

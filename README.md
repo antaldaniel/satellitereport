@@ -5,6 +5,11 @@
 
 <!-- badges: start -->
 
+[![Project Status: Concept – Minimal or no implementation has been done
+yet, or the repository is only intended to be a limited example, demo,
+or
+proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://choosealicense.com/licenses/mit/)[![Last-changedate](https://img.shields.io/badge/last%20change-2020--04--13-yellowgreen.svg)](/commits/master)
+
 <!-- badges: end -->
 
 The goal of satellitereport is to facilitate cooperation with
@@ -26,6 +31,8 @@ This is how you create a choropleth map.
 
 ``` r
 library(satellitereport)
+#> Warning: replacing previous import 'dplyr::left_join' by 'poorman::left_join'
+#> when loading 'satellitereport'
 require(eurostat)
 require(dplyr)
 require(ggplot2)
