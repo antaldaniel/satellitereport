@@ -96,7 +96,7 @@ create_choropleth <- function ( dat,
     stop("dat must be a data.frame-like object.") }
 
   if ( any(!c(geo_var, values_var) %in% names(dat)) ) {
-    stop( c(geo_var, values_var), " must be present in names(dat)=",
+    stop( paste(c(geo_var, values_var), collapse = ", ") , " must be present in\nnames(dat)=",
           paste(names(dat), collapse=", "))
   }
 
@@ -164,7 +164,7 @@ create_choropleth <- function ( dat,
   add_to_map <- add_to_map %>%
     dplyr::filter( geo %in% nuts_ids )
 
-  geodata<- geodata %>%
+  geodata <- geodata %>%
     poorman::left_join(add_to_map, by = 'geo')
 
   ## formating text and legends ----------------------------------------
@@ -197,35 +197,44 @@ create_choropleth <- function ( dat,
 
     if ( 'cat' %in% names(geodata) ) {
 
+      unique_categories <- levels(geodata$cat)[levels(geodata$cat)!='missing']
 
-      if ( ! all(levels(geodata$cat) %in% names(color_palette)) ) {
-        color_palette <- color_palette[color_palette != na_color]
-        color_palette <- c(na_color, color_palette)
-         if ( levels(geodata$cat)[1] != "missing" ) {
-           levels(geodata$cat) <- c("missing", levels(geodata$cat)[levels(geodata$cat)!='missing'])
-         }
-        names(color_palette) <- levels(geodata$cat)
-      } # end of case when color palette does not match all factor levels
+      color_palette <- color_palette[color_palette != na_color]
+      color_palette <- color_palette[1:length(unique_categories)]
 
+
+      are_there_missings <- any(levels(geodata$cat)== "missing" )
+      if ( are_there_missings  ) {
+        geodata$cat <- forcats::fct_relevel(geodata$cat,
+                                            c(unique_categories,
+                                            "missing"))
+        color_palette <- c(color_palette, na_color)
+      }
+      names(color_palette) <- levels(geodata$cat)
     }
 
-    geodata$cat <- forcats::fct_relevel(geodata$cat,
-                                        levels (geodata$cat)[levels(geodata$cat)!='missing']
-    )
 
     base_plot_cat <- geodata %>%
       ggplot(data=.) +
       geom_sf( aes(fill=cat),
                color="white", size=.05
-               ) +
-      scale_fill_manual(values = color_palette,
-                        na.value = na_color) +
+               )  +
       guides(fill = guide_legend(reverse=FALSE,
                                  title = unit_text)) +
       theme_light() +
       theme(legend.position='right',
             axis.text = element_blank(),
             axis.ticks = element_blank())
+
+    if (are_there_missings) {
+      base_plot_cat <-  base_plot_cat +
+        scale_fill_manual(values = color_palette,
+                          na.value = na_color)
+    } else {
+      base_plot_cat <-  base_plot_cat +
+        scale_fill_manual(values = color_palette,
+                          breaks = names(color_palette))
+    }
 
     if ( iceland ) {
       p <- base_plot_cat +

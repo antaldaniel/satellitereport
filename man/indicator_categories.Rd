@@ -42,4 +42,8 @@ indicator_categories(1:7, n=2)
 indicator_categories(c(1:6, NA), n=2, print_style = "interval")
 }
 }
+\seealso{
+Other utility functions: 
+\code{\link{text_wrap}()}
+}
 \concept{utility functions}

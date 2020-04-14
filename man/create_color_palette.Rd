@@ -7,7 +7,7 @@
 create_color_palette(
   base_color = "#00348A",
   min_color = "grey90",
-  n = n,
+  n = 5,
   reverse_scale = FALSE
 )
 }

@@ -10,6 +10,7 @@ print_style = 'min-max'
 iceland = "if_present"
 level = 2
 
+
 all_eu_geo_codes <- eurostat::regional_changes_2016 %>%
   dplyr::distinct ( code16 ) %>%
   dplyr::select(code16) %>%
@@ -88,3 +89,5 @@ test_that("exception handling works", {
   expect_error(create_choropleth ( dat = test_intervals,
                                    level=4, n=5, style ='kmeans'))
 })
+
+
