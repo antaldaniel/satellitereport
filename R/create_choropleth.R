@@ -48,9 +48,12 @@
 #' @importFrom dplyr rename full_join anti_join left_join
 #' @importFrom dplyr mutate_if
 #' @importFrom poorman left_join
+#' @importFrom tidyr spread
 #' @importFrom magrittr `%>%`
 #' @importFrom grDevices colorRampPalette
-#' @importFrom ggplot2 ggplot aes geom_sf scale_fill_manual
+#' @importFrom ggplot2 ggplot aes geom_sf
+#' @importFrom ggplot2 scale_fill_manual scale_fill_gradient
+#' @importFrom ggplot2 scale_fill_continuous
 #' @importFrom ggplot2 labs theme_light theme guides coord_sf
 #' @importFrom ggplot2 element_blank xlim ylim guide_legend
 #' @importFrom forcats fct_explicit_na fct_relevel
@@ -96,7 +99,8 @@ create_choropleth <- function ( dat,
     stop("dat must be a data.frame-like object.") }
 
   if ( any(!c(geo_var, values_var) %in% names(dat)) ) {
-    stop( paste(c(geo_var, values_var), collapse = ", ") , " must be present in\nnames(dat)=",
+    stop( paste(c(geo_var, values_var), collapse = ", ") ,
+          " must be present in\nnames(dat)=",
           paste(names(dat), collapse=", "))
   }
 
@@ -201,7 +205,6 @@ create_choropleth <- function ( dat,
 
       color_palette <- color_palette[color_palette != na_color]
       color_palette <- color_palette[1:length(unique_categories)]
-
 
       are_there_missings <- any(levels(geodata$cat)== "missing" )
       if ( are_there_missings  ) {
