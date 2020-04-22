@@ -62,6 +62,9 @@ category name (factor level) as it is found in you \code{values_var}.}
 in the color palette for missing values, unless you have explicitly
 set one of the names of the palette to \code{"missing"}.}
 
+\item{drop_levels}{Weather to drop categorical levels on the choropleth
+if they are not present in the data.  Defaults to \code{FALSE}.}
+
 \item{reverse_scale}{Defaults to \code{FALSE}.}
 
 \item{style}{Style of interval reporting, defaults to \code{"pretty"}.

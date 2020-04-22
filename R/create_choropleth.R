@@ -33,6 +33,8 @@
 #' @param na_color Defaults to \code{"grey93"}. This color will be used
 #' in the color palette for missing values, unless you have explicitly
 #' set one of the names of the palette to \code{"missing"}.
+#' @param drop_levels Weather to drop categorical levels on the choropleth
+#' if they are not present in the data.  Defaults to \code{FALSE}.
 #' @param style Style of interval reporting, defaults to \code{"pretty"}.
 #' Style can be one of \code{"fixed"}, \code{"sd"}, \code{"equal"},
 #' \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"},
