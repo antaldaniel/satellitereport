@@ -9,6 +9,11 @@ style = 'pretty'
 print_style = 'min-max'
 iceland = "if_present"
 level = 2
+n = 5
+show_all_missing = TRUE
+
+library(dplyr)
+library(ggplot2)
 
 
 all_eu_geo_codes <- eurostat::regional_changes_2016 %>%
