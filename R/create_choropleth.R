@@ -92,6 +92,7 @@ create_choropleth <- function ( dat,
   geodata_nuts0 <- geodata_nuts1 <- geodata_nuts2 <- geodata_nuts3 <- NULL
   n_category <- n
 
+  ## validations ----------------------------------------------------
   if (!is.null(color_palette)) {
     min_color <- color_palette[1]
     max_color <- color_palette[2]
@@ -100,6 +101,7 @@ create_choropleth <- function ( dat,
     max_color <- "#00843A"
   }
 
+  if ( is.null(dat)) { stop ("dat=NULL") }
 
   if ( !'data.frame' %in% class(dat) ) {
     stop("dat must be a data.frame-like object.") }
@@ -110,6 +112,7 @@ create_choropleth <- function ( dat,
           paste(names(dat), collapse=", "))
   }
 
+  ## data processing -------------------------------------------------
   add_to_map <- dat[, c(geo_var, values_var)]
   if ( !ncol(add_to_map) ) stop ("add_to_map error.")
 
@@ -240,62 +243,62 @@ create_choropleth <- function ( dat,
 
     base_plot_cat <- base_plot_cat +
       ggplot2::geom_sf( data= geodata,
-               aes(fill=cat),
-               color="white", size=.05
+         ggplot2::aes(fill=cat),
+                   color="white", size=.05
                )  +
-      guides(fill = guide_legend(reverse=FALSE,
+      ggplot2::guides(fill = ggplot2::guide_legend(reverse=FALSE,
                                  title = unit_text)) +
-      theme_light() +
-      theme(legend.position='right',
-            axis.text = element_blank(),
-            axis.ticks = element_blank())
+      ggplot2::theme_light() +
+      ggplot2::theme(legend.position='right',
+            axis.text = ggplot2::element_blank(),
+            axis.ticks = ggplot2::element_blank())
 
     #plot ( base_plot_cat)
 
     if (are_there_missings) {
       base_plot_cat <-  base_plot_cat +
-        scale_fill_manual(values = color_palette,
+        ggplot2::scale_fill_manual(values = color_palette,
                           na.value = na_color,
                           drop = drop_levels)
     } else {
       base_plot_cat <-  base_plot_cat +
-        scale_fill_manual(values = color_palette,
+        ggplot2::scale_fill_manual(values = color_palette,
                           breaks = names(color_palette),
                           drop = drop_levels )
     }
 
     if ( iceland ) {
       p <- base_plot_cat +
-        coord_sf(xlim = c(-23,34), ylim = c(34.5,71.5))
+        ggplot2::coord_sf(xlim = c(-23,34), ylim = c(34.5,71.5))
     } else {
       p <- base_plot_cat +
-        coord_sf(xlim = c(-11.7, 32.3), ylim = c(34.5,71.5))
+        ggplot2::coord_sf(xlim = c(-11.7, 32.3), ylim = c(34.5,71.5))
     }
 
   } else {
     base_plot_num <- geodata %>%
       ggplot2::ggplot(data=.) +
-      geom_sf(data=.,
-              aes(fill=values),
+      ggplot2::geom_sf(data=.,
+              ggplot2::aes(fill=values),
               color="white", size=.05) +
       ggplot2::scale_fill_continuous(
         ggplot2::scale_fill_gradient(low =  min_color,
                                       high = max_color,
                                       na.value = na_color )
       ) +
-      guides(fill = guide_legend(reverse=FALSE,
+      ggplot2::guides(fill = ggplot2::guide_legend(reverse=FALSE,
                                  title = unit_text)) +
-      theme_light() +
-      theme(legend.position='right',
+      ggplot2::theme_light() +
+      ggplot2::theme(legend.position='right',
             axis.text = element_blank(),
             axis.ticks = element_blank())
 
     if ( iceland ) {
       p <- base_plot_num +
-        coord_sf(xlim = c(-23,34), ylim = c(34.5,71.5))
+        ggplot2::coord_sf(xlim = c(-23,34), ylim = c(34.5,71.5))
     } else {
       p <- base_plot_num +
-        coord_sf(xlim = c(-11.7, 32.3), ylim = c(34.5,71.5))
+        ggplot2::coord_sf(xlim = c(-11.7, 32.3), ylim = c(34.5,71.5))
     }
   }
   p
