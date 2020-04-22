@@ -45,7 +45,7 @@
 #' is present.
 #' See: \code{\link[classInt]{classIntervals}}.
 #' @importFrom dplyr mutate filter select add_count inner_join
-#' @importFrom dplyr rename full_join anti_join left_join
+#' @importFrom dplyr rename full_join anti_join
 #' @importFrom dplyr mutate_if
 #' @importFrom poorman left_join
 #' @importFrom tidyr spread
@@ -78,6 +78,7 @@ create_choropleth <- function ( dat,
                                 unit_text = NULL,
                                 color_palette = NULL,
                                 na_color = 'grey93',
+                                drop_levels = FALSE,
                                 reverse_scale = FALSE,
                                 style = 'pretty',
                                 print_style = 'min-max',
@@ -85,6 +86,8 @@ create_choropleth <- function ( dat,
 
   . <- time <- geo <- title <- values <- base_color <- min_colur <- NULL
   code16  <- NULL
+  geodata_nuts0 <- geodata_nuts1 <- geodata_nuts2 <- geodata_nuts3 <- NULL
+  n_category <- n
 
   if (!is.null(color_palette)) {
     min_color <- color_palette[1]
@@ -116,7 +119,7 @@ create_choropleth <- function ( dat,
     if ( type=='discrete' ) {
       add_to_map$cat <- indicator_categories(
            values = add_to_map$values,
-           n = n,
+           n = n_category,
            style = style,
            print_style = print_style)
 
@@ -146,30 +149,43 @@ create_choropleth <- function ( dat,
 
   ## loading the relevant map -------------------------------
   if ( level == 0 ) {
-    geodata <- geodata_nuts0
-    nuts_ids <- geodata$id
+    utils::data("geodata_nuts0", package = "satellitereport", envir = environment())
+    nuts_ids <- geodata_nuts0$id
     add_to_map$geo <- ifelse ( add_to_map$geo == "GB", "UK",
                         ifelse ( add_to_map$geo == "GR", "EL",
                                  add_to_map$geo))
+    geodata <- geodata_nuts0
   } else if ( level == 1 )  {
+    utils::data("geodata_nuts1", package = "satellitereport", envir = environment())
     geodata <- geodata_nuts1
     nuts_ids <- geodata$id
   } else if ( level == 2 )  {
+    utils::data("geodata_nuts2", package = "satellitereport", envir = environment())
     geodata  <- geodata_nuts2
     nuts_ids <- geodata$id
   } else if ( level == 3 ) {
+    utils::data("geodata_nuts3", package = "satellitereport", envir = environment())
     geodata  <- geodata_nuts3
     nuts_ids <- geodata$id
   }  else {
     stop ( "Level must be [NUTS] 0, 1, 2 or 3.")
   }
 
+  this_geometry <- geodata$geometry
   ## joining data with map ---------------------------------------------
   add_to_map <- add_to_map %>%
     dplyr::filter( geo %in% nuts_ids )
 
+  if ( nrow(add_to_map) ==  0) {
+    stop("Data does not overlap with map. Is the NUTS level correctly set?")
+  }
+
   geodata <- geodata %>%
     poorman::left_join(add_to_map, by = 'geo')
+
+  #names ( geodata )
+
+  #check <- geodata %>% select ( geo, cats )
 
   ## formating text and legends ----------------------------------------
   unit_text <- if ( is.null(unit_text) ) { unit_text <- ""} else {
@@ -217,9 +233,11 @@ create_choropleth <- function ( dat,
     }
 
 
-    base_plot_cat <- geodata %>%
-      ggplot(data=.) +
-      geom_sf( aes(fill=cat),
+    base_plot_cat <- ggplot2::ggplot(data=geodata)
+
+    base_plot_cat <- base_plot_cat +
+      ggplot2::geom_sf( data= geodata,
+               aes(fill=cat),
                color="white", size=.05
                )  +
       guides(fill = guide_legend(reverse=FALSE,
@@ -229,14 +247,18 @@ create_choropleth <- function ( dat,
             axis.text = element_blank(),
             axis.ticks = element_blank())
 
+    #plot ( base_plot_cat)
+
     if (are_there_missings) {
       base_plot_cat <-  base_plot_cat +
         scale_fill_manual(values = color_palette,
-                          na.value = na_color)
+                          na.value = na_color,
+                          drop = drop_levels)
     } else {
       base_plot_cat <-  base_plot_cat +
         scale_fill_manual(values = color_palette,
-                          breaks = names(color_palette))
+                          breaks = names(color_palette),
+                          drop = drop_levels )
     }
 
     if ( iceland ) {
@@ -250,7 +272,8 @@ create_choropleth <- function ( dat,
   } else {
     base_plot_num <- geodata %>%
       ggplot2::ggplot(data=.) +
-      geom_sf(aes(fill=values),
+      geom_sf(data=.,
+              aes(fill=values),
               color="white", size=.05) +
       ggplot2::scale_fill_continuous(
         ggplot2::scale_fill_gradient(low =  min_color,

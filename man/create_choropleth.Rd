@@ -15,6 +15,7 @@ create_choropleth(
   unit_text = NULL,
   color_palette = NULL,
   na_color = "grey93",
+  drop_levels = FALSE,
   reverse_scale = FALSE,
   style = "pretty",
   print_style = "min-max",
