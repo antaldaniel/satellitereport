@@ -1,11 +1,11 @@
 Package: satellitereport
 Type: Package
 Title: SatelliteReport Helper Functions
-Version: 0.1.1
+Version: 0.1.2
 Author: Daniel Antal
 Maintainer: Daniel Antal <daniel.antal@satellitereport.com>
 Description: Some helper functions to facilitate collaboration with satelliterport.com.
-License: MIT + file LICENSE
+License: AGPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: 
@@ -16,7 +16,8 @@ Imports:
     ggplot2,
     magrittr,
     eurostat,
-    poorman
+    poorman,
+    tidyr
 Depends: R (>= 2.10)
 RoxygenNote: 7.1.0
 Suggests: 

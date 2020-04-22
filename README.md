@@ -8,7 +8,7 @@
 [![Project Status: Concept – Minimal or no implementation has been done
 yet, or the repository is only intended to be a limited example, demo,
 or
-proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://choosealicense.com/licenses/mit/)[![Last-changedate](https://img.shields.io/badge/last%20change-2020--04--13-yellowgreen.svg)](/commits/master)
+proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)[![license](https://img.shields.io/badge/license-AGPL--3-lightgrey.svg)](https://choosealicense.com/licenses/agpl-3.0/)[![Last-changedate](https://img.shields.io/badge/last%20change-2020--04--22-yellowgreen.svg)](/commits/master)
 
 <!-- badges: end -->
 
