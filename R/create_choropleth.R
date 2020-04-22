@@ -50,6 +50,7 @@
 #' @importFrom poorman left_join
 #' @importFrom tidyr spread
 #' @importFrom magrittr `%>%`
+#' @importFrom utils data
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 ggplot aes geom_sf
 #' @importFrom ggplot2 scale_fill_manual scale_fill_gradient
