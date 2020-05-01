@@ -24,11 +24,11 @@ badgecreatr::dynamic_badges_minimal(license = "AGPL-3")
 # satellitereport
 
 <!-- badges: start -->
-[![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)[![license](https://img.shields.io/badge/license-AGPL--3-lightgrey.svg)](https://choosealicense.com/licenses/agpl-3.0/)[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)[![license](https://img.shields.io/badge/license-AGPL--3-lightgrey.svg)](https://choosealicense.com/licenses/agpl-3.0/)[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
 
 <!-- badges: end -->
 
-The goal of satellitereport is to facilitate cooperation with [satellitereport.com](satellitereport.com)
+The goal of satellitereport is to facilitate cooperation with [satellitereport.com](satellitereport.com). Package documentation: [r.satellitereport.com](https://r.satellitereport.com)
 
 ## Installation
 

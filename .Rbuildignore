@@ -9,3 +9,6 @@
 ^README\.Rmd$
 ^README\.html$
 ^not_included$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

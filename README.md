@@ -5,15 +5,15 @@
 
 <!-- badges: start -->
 
-[![Project Status: Concept – Minimal or no implementation has been done
-yet, or the repository is only intended to be a limited example, demo,
-or
-proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)[![license](https://img.shields.io/badge/license-AGPL--3-lightgrey.svg)](https://choosealicense.com/licenses/agpl-3.0/)[![Last-changedate](https://img.shields.io/badge/last%20change-2020--04--22-yellowgreen.svg)](/commits/master)
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)[![license](https://img.shields.io/badge/license-AGPL--3-lightgrey.svg)](https://choosealicense.com/licenses/agpl-3.0/)[![Last-changedate](https://img.shields.io/badge/last%20change-2020--05--02-yellowgreen.svg)](/commits/master)
 
 <!-- badges: end -->
 
 The goal of satellitereport is to facilitate cooperation with
-[satellitereport.com](satellitereport.com)
+[satellitereport.com](satellitereport.com). Package documentation:
+[r.satellitereport.com](https://r.satellitereport.com)
 
 ## Installation
 
@@ -31,8 +31,6 @@ This is how you create a choropleth map.
 
 ``` r
 library(satellitereport)
-#> Warning: replacing previous import 'dplyr::left_join' by 'poorman::left_join'
-#> when loading 'satellitereport'
 require(eurostat)
 require(dplyr)
 require(ggplot2)
