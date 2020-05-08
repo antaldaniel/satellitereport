@@ -15,5 +15,3 @@
 #'   }
 #' @source \url{https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/nuts}
 "geodata_nuts2"
-
-geodata_nuts0$LEVL_CODE

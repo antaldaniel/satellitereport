@@ -1,6 +1,7 @@
 library(satellitereport)
 library(dplyr)
 library(tidyr)
+library(knitr)
 
 eb <- readRDS("data-raw/eurobarometer_79_2.rds")
 unique(eb$indicator)
@@ -8,7 +9,7 @@ dat <- eb  %>%
   filter ( indicator == "erobarometer_79_2_is_visit_public_library")
 
 names ( dat )
-eb  %>%
+plot1 <- eb  %>%
   filter ( indicator == "erobarometer_79_2_is_visit_public_library") %>%
   create_choropleth ( dat = ., level = 2,
                     values_var = 'values',
@@ -16,4 +17,9 @@ eb  %>%
                     unit_text = "unit",
                     color_palette = as.character(sr_palette()),
                     type = 'discrete', n=6,
-                    style = 'quantile', drop_levels)
+                    style = 'quantile', drop_levels=TRUE)
+
+
+saveRDS(plot1, file= "t.rds")
+plot (plot1)
+

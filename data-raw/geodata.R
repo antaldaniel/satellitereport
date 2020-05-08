@@ -7,9 +7,9 @@ load(file.path('data-raw', "geodata_sf.rda"))
 #                  geodata_nuts3, overwrite=TRUE)
 
 
-usethis::use_data( geodata_nuts0, overwrite=TRUE, compress = 'bzip2', internal=FALSE )
-usethis::use_data( geodata_nuts1, overwrite=TRUE, compress = 'bzip2', internal=FALSE )
-usethis::use_data( geodata_nuts2, overwrite=TRUE, compress = 'bzip2', internal=FALSE )
-usethis::use_data( geodata_nuts3, overwrite=TRUE, compress = 'bzip2', internal=FALSE )
+usethis::use_data( geodata_nuts0, overwrite=TRUE, internal=FALSE )
+usethis::use_data( geodata_nuts1, overwrite=TRUE, internal=FALSE )
+usethis::use_data( geodata_nuts2, overwrite=TRUE, internal=FALSE )
+usethis::use_data( geodata_nuts3, overwrite=TRUE, internal=FALSE )
 
 
