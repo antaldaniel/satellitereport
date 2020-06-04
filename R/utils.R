@@ -1,4 +1,15 @@
-
+#' Check dat input
+#'
+#' @param dat Eurostat data frame or a data frame derived from
+#'  \code{create_indicator} or \code{create_tables}.
+#' @param geo_var The name of the variable that contains the standard
+#' \code{geo} codes. It defaults to \code{"geo"}.
+#' @param values_var The name of the variable that contains the
+#' \code{values} To be mapped. It defaults to \code{"values"}. If the data
+#' you want to see on map is in the column \code{average_values}, than
+#' use  \code{"average_values"}. The values can be numeric or categorical
+#' variables.
+#' @keyword internal
 
 check_dat_input <- function(dat, geo_var, values_var) {
 
@@ -14,6 +25,21 @@ check_dat_input <- function(dat, geo_var, values_var) {
     stop ("Parameter 'geo_var='", geo_var, "' is not present in 'dat'")
   }
 }
+
+#' Create a numeric choropleth
+#'
+#' @param choropleth_data
+#' @param iceland A logical variable to show Iceland on the map.
+#' @keyword internal
+#' @importFrom magrittr `%>%`
+#' @importFrom utils data
+#' @importFrom grDevices colorRampPalette
+#' @importFrom ggplot2 ggplot aes geom_sf
+#' @importFrom ggplot2 scale_fill_manual scale_fill_gradient
+#' @importFrom ggplot2 scale_fill_continuous
+#' @importFrom ggplot2 labs theme_light theme guides coord_sf
+#' @importFrom ggplot2 element_blank xlim ylim guide_legend
+
 
 create_base_plot_num <- function (choropleth_data, iceland) {
   base_plot_num <- choropleth_data  %>%
@@ -42,6 +68,21 @@ create_base_plot_num <- function (choropleth_data, iceland) {
   }
 
 }
+
+#' Create a categorical choropleth
+#'
+#' @param choropleth_data
+#' @param iceland A logical variable to show Iceland on the map.
+#' @param are_there_missings A logical variable if missing data is present.
+#' @keyword internal
+#' @importFrom magrittr `%>%`
+#' @importFrom utils data
+#' @importFrom grDevices colorRampPalette
+#' @importFrom ggplot2 ggplot aes geom_sf
+#' @importFrom ggplot2 scale_fill_manual scale_fill_gradient
+#' @importFrom ggplot2 scale_fill_continuous
+#' @importFrom ggplot2 labs theme_light theme guides coord_sf
+#' @importFrom ggplot2 element_blank xlim ylim guide_legend
 
 create_base_plot_cat <- function(choropleth_data,
                                  iceland,
