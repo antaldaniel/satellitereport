@@ -17,10 +17,6 @@ require(ggplot2)
 require(badgecreatr)
 ```
 
-```{r badge, results='markup', eval=FALSE, include=FALSE}
-badgecreatr::dynamic_badges_minimal(license = "AGPL-3")
-```
-
 # satellitereport
 
 <!-- badges: start -->
@@ -42,7 +38,7 @@ devtools::install_github("antaldaniel/satellitereport")
 
 This is how you create a choropleth map.
 
-```{r choropleth }
+```{r choropleth}
 library(satellitereport)
 require(eurostat)
 require(dplyr)
@@ -60,7 +56,7 @@ test_intervals <- data.frame (
 create_choropleth ( dat = test_intervals,
                     geo_var = 'geo', values_var='values',
                     na_color = 'grey93', unit_text = 'unit', 
-                    level=2, n=5, style ='kmeans') +
+                    n=5, style ='kmeans') +
   ggplot2::labs( title = "Random Numbers Over NUTS-2 Regions", 
                  subtitle = "This is a demonstration of the function",
                  caption = "This is the caption text")
@@ -70,5 +66,5 @@ create_choropleth ( dat = test_intervals,
 
 ## Code of Conduct
 
-Please note that the 'satellitereport' package is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the `satellitereport` package is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 

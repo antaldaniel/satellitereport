@@ -7,7 +7,7 @@
 
 [![Project Status: WIP – Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)[![license](https://img.shields.io/badge/license-AGPL--3-lightgrey.svg)](https://choosealicense.com/licenses/agpl-3.0/)[![Last-changedate](https://img.shields.io/badge/last%20change-2020--05--08-yellowgreen.svg)](/commits/master)
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)[![license](https://img.shields.io/badge/license-AGPL--3-lightgrey.svg)](https://choosealicense.com/licenses/agpl-3.0/)[![Last-changedate](https://img.shields.io/badge/last%20change-2020--06--04-yellowgreen.svg)](/commits/master)
 
 <!-- badges: end -->
 
@@ -47,7 +47,7 @@ test_intervals <- data.frame (
 create_choropleth ( dat = test_intervals,
                     geo_var = 'geo', values_var='values',
                     na_color = 'grey93', unit_text = 'unit', 
-                    level=2, n=5, style ='kmeans') +
+                    n=5, style ='kmeans') +
   ggplot2::labs( title = "Random Numbers Over NUTS-2 Regions", 
                  subtitle = "This is a demonstration of the function",
                  caption = "This is the caption text")
@@ -57,6 +57,6 @@ create_choropleth ( dat = test_intervals,
 
 ## Code of Conduct
 
-Please note that the ‘satellitereport’ package is released with a
+Please note that the `satellitereport` package is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
 this project, you agree to abide by its terms.

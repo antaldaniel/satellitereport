@@ -74,10 +74,12 @@ create_base_plot_num <- function (choropleth_data,
 
   if ( iceland ) {
     p <- base_plot_num  +
-      ggplot2::coord_sf(xlim = c(-23,34), ylim = c(34.5,71.5))
+      ggplot2::coord_sf(xlim = c(-23,34),
+                        ylim = c(34.5,71.5))
   } else {
     p <- base_plot_num  +
-      ggplot2::coord_sf(xlim = c(-11.7, 32.3), ylim = c(34.5,71.5))
+      ggplot2::coord_sf(xlim = c(-11.7, 32.3),
+                        ylim = c(34.5,71.5))
   }
 
 }
@@ -96,6 +98,8 @@ create_base_plot_num <- function (choropleth_data,
 #' @param iceland A logical variable to show Iceland on the map.
 #' @param unit_text Defaults to \code{NULL}. The title caption of the
 #' color (fill) legend.
+#' @param drop_levels Weather to drop categorical levels on the choropleth
+#' if they are not present in the data. Defaults to \code{FALSE}.
 #' @param are_there_missings A logical variable if missing data is present.
 #' @keywords internal
 #' @return A ggplot object containing the choropleth map.
@@ -109,6 +113,7 @@ create_base_plot_num <- function (choropleth_data,
 create_base_plot_cat <- function(choropleth_data,
                                  color_palette,
                                  na_color,
+                                 drop_levels,
                                  iceland,
                                  are_there_missings,
                                  unit_text) {
@@ -143,10 +148,12 @@ create_base_plot_cat <- function(choropleth_data,
 
   if ( iceland ) {
     p <- base_plot_cat  +
-      ggplot2::coord_sf(xlim = c(-23,34), ylim = c(34.5,71.5))
+      ggplot2::coord_sf(xlim = c(-23,34),
+                        ylim = c(34.5,71.5))
   } else {
     p <- base_plot_cat  +
-      ggplot2::coord_sf(xlim = c(-11.7, 32.3), ylim = c(34.5,71.5))
+      ggplot2::coord_sf(xlim = c(-11.7, 32.3),
+                        ylim = c(34.5,71.5))
   }
 
   p

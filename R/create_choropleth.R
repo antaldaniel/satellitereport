@@ -80,9 +80,9 @@ create_choropleth <- function ( dat,
                                 print_style = 'min-max',
                                 iceland = "if_present" ) {
 
-  ## non-standard evaluation initialization
-  . <- time <- geo <- title <- values <- base_color <- min_colur <- NULL
-  code16  <- geodata_europe_2016 <- NULL
+  ## non-standard evaluation initialization ---------------------
+  . <- time <- geo <- title <- values <- base_color <- NULL
+  code16  <- geodata_europe_2016 <- min_color <- max_color <- NULL
   n_category <- n
 
 
@@ -102,7 +102,7 @@ create_choropleth <- function ( dat,
                        collapse="\n")
   }
 
-  ## Creating color palette
+  ## Creating basics of a color palette, if not given --------------
   if (!is.null(color_palette)) {
     min_color <- color_palette[1]
     max_color <- color_palette[2]
@@ -111,11 +111,10 @@ create_choropleth <- function ( dat,
     max_color <- "#00843A"
   }
 
-  ## loading map -----------------------------------------------
+  ## loading map --------------------------------------------------
   utils::data ( "geodata_europe_2016",
                 package = "satellitereport", envir=environment()
                 )
-
   choropleth_map <- geodata_europe_2016
 
   add_to_map <- dat %>%
@@ -131,6 +130,8 @@ create_choropleth <- function ( dat,
   ## first numeric values are treated --------------------------
   if ( "numeric" %in% add_to_map_classes[2] ) {
     if ( type=='discrete' ) {
+      # Convert numerical values to a categorical variable
+      # and formulate it for a nicely printing color(fill) legend.
       add_to_map$cat <- indicator_categories(
         values = add_to_map$values,
         n = n_category,
@@ -197,12 +198,14 @@ create_choropleth <- function ( dat,
     choropleth_data <- choropleth_data %>%
       filter ( !is.na(cat) )
 
-    p <- create_base_plot_cat(choropleth_data = choropleth_data,
-                              color_palette = color_palette,
-                              na_color = na_color,
-                              unit_text = unit_text,
-                              iceland = iceland,
-                              are_there_missings = are_there_missings )
+    p <- create_base_plot_cat(
+         choropleth_data = choropleth_data,
+         color_palette = color_palette,
+         na_color = na_color,         # missing colors
+         drop_levels = drop_levels,   # if unused levels are omitted
+         unit_text = unit_text,       # title of the color(fill) legend
+         iceland = iceland,           # if Iceland should be on the map
+         are_there_missings = are_there_missings )
   } else {
     ## Create the numeric map -----------------------------------
     choropleth_data <- choropleth_data %>%
@@ -210,11 +213,11 @@ create_choropleth <- function ( dat,
 
     p <- create_base_plot_num(
       choropleth_data = choropleth_data,
-      min_color = min_color,
-      max_color = max_color,
-      na_color = na_color,
-      unit_text = unit_text,
-      iceland = iceland )
+      min_color = min_color,   # color of minimum value
+      max_color = max_color,   # color of maximum value
+      na_color = na_color,     # color of missing value
+      unit_text = unit_text,   # title of the color (fill) legend
+      iceland = iceland )      # if Iceland should be on the map
   }
   ## Return choropleth ------------------------------------------
  p

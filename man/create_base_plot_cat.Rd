@@ -32,6 +32,9 @@ set one of the names of the palette to \code{"missing"}.}
 
 \item{unit_text}{Defaults to \code{NULL}. The title caption of the
 color (fill) legend.}
+
+\item{drop_levels}{Weather to drop categorical levels on the choropleth
+if they are not present in the data. Defaults to \code{FALSE}.}
 }
 \value{
 A ggplot object containing the choropleth map.
