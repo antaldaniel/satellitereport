@@ -1,25 +1,28 @@
+library(ggplot2)
+library(dplyr)
+library(testthat)
+
+library(satellitereport)
+n = 5
 geo_var = 'geo'
 values_var = 'values'
 type = 'discrete'
+show_all_missing = TRUE
 unit_text = NULL
 color_palette = NULL
 na_color = 'grey93'
+drop_levels = FALSE
 reverse_scale = FALSE
 style = 'pretty'
 print_style = 'min-max'
 iceland = "if_present"
-level = 2
-n = 5
-show_all_missing = TRUE
-
-library(dplyr)
-library(ggplot2)
-
+dat = nuts_with_missings
+dat$values[c(100,200,300,400,500,600,700,800)] <- NA_real_
 
 all_eu_geo_codes <- eurostat::regional_changes_2016 %>%
   dplyr::distinct ( code16 ) %>%
   dplyr::select(code16) %>%
-  filter (!is.na(code16)) %>%
+  filter(!is.na(code16)) %>%
   unlist()
 
 all_geo_codes <-geodata_nuts2$id
@@ -43,7 +46,7 @@ test_with_missings <- data.frame(
 
 
 create_choropleth ( dat = test_with_missings,
-                    level=2, n=5, style ='kmeans')
+                    n=5, style ='kmeans')
 
 test_with_categories <- data.frame(
   geo = all_geo_codes,
@@ -63,7 +66,6 @@ names(cat_palette) <- c("2", "missing", "3", "4", "5")
 
 
 create_choropleth ( dat = test_with_categories,
-                    level = 2,
                     type = 'discrete',
                     values_var = "cats",
                     color_palette = cat_palette )
@@ -83,14 +85,13 @@ test_with_num_categories$values <- ifelse(
 )
 
 create_choropleth ( dat = test_with_num_categories,
-                    level = 2,
                     type = 'discrete',
                     values_var = "values",
                     n = 4,
                     color_palette = cat_palette[2:5],
                     na_color = 'grey93')
 
-test_that("exception handling works", {
+testthat::test_that("exception handling works", {
   expect_error(create_choropleth ( dat = test_intervals,
                                    level=4, n=5, style ='kmeans'))
 })

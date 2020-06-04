@@ -6,8 +6,6 @@
 #' codes of Eurostat.
 #' @param dat Eurostat data frame or a data frame derived from
 #'  \code{create_indicator} or \code{create_tables}.
-#' @param level Defaults to \code{0}. The NUTS level used to create the
-#' choropleth chart, i.e. \code{0}, \code{1}, \code{2} or \code{3}.
 #' @param geo_var The name of the variable that contains the standard
 #' \code{geo} codes. It defaults to \code{"geo"}.
 #' @param values_var The name of the variable that contains the
@@ -48,8 +46,7 @@
 #' See: \code{\link[classInt]{classIntervals}}.
 #' @importFrom dplyr mutate filter select add_count inner_join
 #' @importFrom dplyr rename full_join anti_join
-#' @importFrom dplyr mutate_if
-#' @importFrom poorman left_join
+#' @importFrom dplyr mutate_if left_join
 #' @importFrom tidyr spread
 #' @importFrom magrittr `%>%`
 #' @importFrom utils data
@@ -72,7 +69,6 @@
 #' @export
 
 create_choropleth <- function ( dat,
-                                level = 0,
                                 n = 5,
                                 geo_var = 'geo',
                                 values_var = 'values',
@@ -87,12 +83,29 @@ create_choropleth <- function ( dat,
                                 print_style = 'min-max',
                                 iceland = "if_present" ) {
 
+  ## non-standard evaluation initialization
   . <- time <- geo <- title <- values <- base_color <- min_colur <- NULL
-  code16  <- NULL
-  geodata_nuts0 <- geodata_nuts1 <- geodata_nuts2 <- geodata_nuts3 <- NULL
+  code16  <- geodata_europe_2016 <- NULL
   n_category <- n
 
-  ## validations ----------------------------------------------------
+
+  ## checking inputs ------------------------------------------------
+  check_dat_input(dat=dat, geo_var=geo_var, values_var=values_var)
+  if(!is.null(color_palette)) {
+    if ( length(color_palette)<n_category & type == "discrete" ){
+      stop ("There are not enough colors for the discrete choropleth.")
+    }
+  }
+
+  dat <- dplyr::select ( dat, all_of(c(geo_var, values_var)))
+
+  ## formating text and legends ----------------------------------------
+  unit_text <- if ( is.null(unit_text) ) { unit_text <- ""} else {
+    unit_text <- paste(strwrap(as.character(unit_text), width=20),
+                       collapse="\n")
+  }
+
+  ## Creating color palette
   if (!is.null(color_palette)) {
     min_color <- color_palette[1]
     max_color <- color_palette[2]
@@ -101,104 +114,59 @@ create_choropleth <- function ( dat,
     max_color <- "#00843A"
   }
 
-  if ( is.null(dat)) { stop ("dat=NULL") }
+  ## loading map -----------------------------------------------
+  utils::data ( "geodata_europe_2016",
+                package = "satellitereport", envir=environment()
+                )
 
-  if ( !'data.frame' %in% class(dat) ) {
-    stop("dat must be a data.frame-like object.") }
+  choropleth_map <- geodata_europe_2016
 
-  if ( any(!c(geo_var, values_var) %in% names(dat)) ) {
-    stop( paste(c(geo_var, values_var), collapse = ", ") ,
-          " must be present in\nnames(dat)=",
-          paste(names(dat), collapse=", "))
-  }
-
-  ## data processing -------------------------------------------------
-  add_to_map <- dat[, c(geo_var, values_var)]
-  if ( !ncol(add_to_map) ) stop ("add_to_map error.")
+  add_to_map <- dat %>%
+    rename ( geo    = {{ geo_var }},
+             values = {{ values_var }})
+  add_to_map <- add_to_map  %>%
+    select ( all_of(c("geo", "values") ))
 
   add_to_map <- mutate_if (add_to_map, is.factor, as.character)
   add_to_map_classes <- vapply(add_to_map, class, character(1))
-  names(add_to_map) <- c("geo", "values")
 
   ## first numeric values are treated --------------------------
   if ( "numeric" %in% add_to_map_classes[2] ) {
     if ( type=='discrete' ) {
       add_to_map$cat <- indicator_categories(
-           values = add_to_map$values,
-           n = n_category,
-           style = style,
-           print_style = print_style)
-
-      unique_cats <- levels(add_to_map$cat)[levels(add_to_map$cat)!= "missing"]
-
-      if ( is.null(color_palette)) {
-        color_palette <- create_color_palette( n=length(unique_cats) )
-      }
-
+        values = add_to_map$values,
+        n = n_category,
+        style = style,
+        print_style = print_style)
     } else {
       type <- 'numeric'
     }
-  } else { # end of numeric cases, non-numeric maps follow -----
+  } else { # non-numeric values_vars treated as discrete -----
     type <- 'discrete'
-    cats <- unique ( add_to_map$values)
+    cats <- unique (add_to_map$values)
     add_to_map$cat <- add_to_map$values
-    add_to_map$cat <- forcats::fct_explicit_na(add_to_map$cat,
-                                               na_level = 'missing')
-
-    unique_cats <- unique(add_to_map$cat)[unique(add_to_map$cat)!='missing']
-
-    levels ( add_to_map$cat)
-    if ( is.null(color_palette) ) {
-      color_palette <- create_color_palette(n=length(unique_cats))
-    }
   } ## end of finding out choropleth data type
 
-  ## loading the relevant map -------------------------------
-  if ( level == 0 ) {
-    utils::data("geodata_nuts0", package = "satellitereport", envir = environment())
-    nuts_ids <- geodata_nuts0$id
-    add_to_map$geo <- ifelse ( add_to_map$geo == "GB", "UK",
-                        ifelse ( add_to_map$geo == "GR", "EL",
-                                 add_to_map$geo))
-    geodata <- geodata_nuts0
-  } else if ( level == 1 )  {
-    utils::data("geodata_nuts1", package = "satellitereport", envir = environment())
-    geodata <- geodata_nuts1
-    nuts_ids <- geodata$id
-  } else if ( level == 2 )  {
-    utils::data("geodata_nuts2", package = "satellitereport", envir = environment())
-    geodata  <- geodata_nuts2
-    nuts_ids <- geodata$id
-  } else if ( level == 3 ) {
-    utils::data("geodata_nuts3", package = "satellitereport", envir = environment())
-    geodata  <- geodata_nuts3
-    nuts_ids <- geodata$id
-  }  else {
-    stop ( "Level must be [NUTS] 0, 1, 2 or 3.")
+  ## Adding the values to the shapefile of Europe-----------------
+  choropleth_data <- choropleth_map %>%
+    rename ( geo = NUTS_ID) %>%
+    dplyr::left_join(add_to_map, by = 'geo')
+
+  ## Make 'missing' a category ----------------------------
+  if ( 'cat' %in% names (choropleth_data)) {
+    choropleth_data <- choropleth_data  %>%
+      dplyr::mutate(
+        ## add explicit NA as 'missing'
+        cat = forcats::fct_explicit_na(cat, na_level = 'missing')
+      ) %>%
+      dplyr::mutate(
+        ## move 'missing' to the end of the category levels
+        cat = forcats::fct_relevel(cat, 'missing',
+                                   after = n_category)
+      )
   }
 
-  this_geometry <- geodata$geometry
-  ## joining data with map ---------------------------------------------
-  add_to_map <- add_to_map %>%
-    dplyr::filter( geo %in% nuts_ids )
-
-  if ( nrow(add_to_map) ==  0) {
-    stop("Data does not overlap with map. Is the NUTS level correctly set?")
-  }
-
-  geodata <- geodata %>%
-    poorman::left_join(add_to_map, by = 'geo')
-
-  #names ( geodata )
-
-  #check <- geodata %>% select ( geo, cats )
-
-  ## formating text and legends ----------------------------------------
-  unit_text <- if ( is.null(unit_text) ) { unit_text <- ""} else {
-    unit_text <- paste(strwrap(as.character(unit_text), width=20),
-                        collapse="\n")
-  }
-
+  ## If necessary, zoom out to include Iceland ---------------------
   if ( class (iceland) == "character" ) {
     if (  ! any( c("true", "false") %in% tolower(iceland)) ) {
       iceland <- ifelse ( "IS" %in% dat$geo, TRUE, FALSE )
@@ -209,98 +177,30 @@ create_choropleth <- function ( dat,
     }
   }
 
-  ## Make all missing cases explicit ---------------------------------
-
-  if( show_all_missing & type == 'discrete' ) {
-
-    geodata$cat <- forcats::fct_explicit_na(geodata$cat,
-                                            na_level = "missing")
-
-  }
-
-  ## coloring & base map  ---------------------------------------------
+  ## Coloring for discrete map -----------------------
   if ( type == 'discrete' ) {
 
-    if ( 'cat' %in% names(geodata) ) {
+      unique_cats <- levels(choropleth_data$cat)[levels(choropleth_data$cat)!= "missing"]
 
-      unique_categories <- levels(geodata$cat)[levels(geodata$cat)!='missing']
-
-      color_palette <- color_palette[color_palette != na_color]
-      color_palette <- color_palette[1:length(unique_categories)]
-
-      are_there_missings <- any(levels(geodata$cat)== "missing" )
-      if ( are_there_missings  ) {
-        geodata$cat <- forcats::fct_relevel(geodata$cat,
-                                            c(unique_categories,
-                                            "missing"))
-        color_palette <- c(color_palette, na_color)
-      }
-      names(color_palette) <- levels(geodata$cat)
+  if ( is.null(color_palette)) {
+        color_palette <- create_color_palette( n=length(unique_cats) )
     }
 
+  color_palette <- c(color_palette, na_color )
+  names (color_palette) <- c(unique_cats, "missing")
 
-    base_plot_cat <- ggplot2::ggplot(data=geodata)
+  are_there_missings <- any(levels(choropleth_data$cat)== "missing" )
 
-    base_plot_cat <- base_plot_cat +
-      ggplot2::geom_sf( data= geodata,
-         ggplot2::aes(fill=cat),
-                   color="white", size=.05
-               )  +
-      ggplot2::guides(fill = ggplot2::guide_legend(reverse=FALSE,
-                                 title = unit_text)) +
-      ggplot2::theme_light() +
-      ggplot2::theme(legend.position='right',
-            axis.text = ggplot2::element_blank(),
-            axis.ticks = ggplot2::element_blank())
-
-    #plot ( base_plot_cat)
-
-    if (are_there_missings) {
-      base_plot_cat <-  base_plot_cat +
-        ggplot2::scale_fill_manual(values = color_palette,
-                          na.value = na_color,
-                          drop = drop_levels)
-    } else {
-      base_plot_cat <-  base_plot_cat +
-        ggplot2::scale_fill_manual(values = color_palette,
-                          breaks = names(color_palette),
-                          drop = drop_levels )
-    }
-
-    if ( iceland ) {
-      p <- base_plot_cat +
-        ggplot2::coord_sf(xlim = c(-23,34), ylim = c(34.5,71.5))
-    } else {
-      p <- base_plot_cat +
-        ggplot2::coord_sf(xlim = c(-11.7, 32.3), ylim = c(34.5,71.5))
-    }
-
+  p <- create_base_plot_cat(choropleth_data = choropleth_data,
+                              iceland = iceland,
+                              are_there_missings = are_there_missings )
   } else {
-    base_plot_num <- geodata %>%
-      ggplot2::ggplot(data=.) +
-      ggplot2::geom_sf(data=.,
-              ggplot2::aes(fill=values),
-              color="white", size=.05) +
-      ggplot2::scale_fill_continuous(
-        ggplot2::scale_fill_gradient(low =  min_color,
-                                      high = max_color,
-                                      na.value = na_color )
-      ) +
-      ggplot2::guides(fill = ggplot2::guide_legend(reverse=FALSE,
-                                 title = unit_text)) +
-      ggplot2::theme_light() +
-      ggplot2::theme(legend.position='right',
-            axis.text = element_blank(),
-            axis.ticks = element_blank())
-
-    if ( iceland ) {
-      p <- base_plot_num +
-        ggplot2::coord_sf(xlim = c(-23,34), ylim = c(34.5,71.5))
-    } else {
-      p <- base_plot_num +
-        ggplot2::coord_sf(xlim = c(-11.7, 32.3), ylim = c(34.5,71.5))
-    }
+    ## Create the numeric map -----------------------------------
+    p <- create_base_plot_num(
+      choropleth_data = choropleth_data,
+      iceland = iceland )
   }
-  p
+  ## Return choropleth ------------------------------------------
+ p
 }
 

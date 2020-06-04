@@ -1,0 +1,54 @@
+---
+title: "Testing Choropleths"
+author: "Daniel Antal, CFA"
+date: "4/22/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, out.width = '50%')
+library(dplyr)
+library(satellitereport)
+library(ggplot2)
+
+eb <- readRDS("../data-raw/eurobarometer_79_2.rds")
+unique(eb$indicator)
+dat <- eb  %>%
+  filter ( indicator == "erobarometer_79_2_is_visit_public_library")
+
+names ( dat )
+this <- eb  %>%
+  filter ( indicator == "erobarometer_79_2_is_visit_public_library") 
+```
+
+## R Markdown
+
+
+
+```{r cars}
+tt <- eb  %>%
+  filter ( indicator == "erobarometer_79_2_is_visit_public_library") %>%
+  create_choropleth ( dat = ., level = 2,
+                    values_var = 'values',
+                    geo_var = 'code16',
+                    unit_text = "unit",
+                    color_palette = as.character(sr_palette()),
+                    type = 'discrete', n=6,
+                    style = 'quantile', drop_levels=TRUE)
+saveRDS ( tt, "tt.rds")
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+readRDS("../t.rds")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r t, eval=TRUE}
+readRDS("tt.rds")
+```

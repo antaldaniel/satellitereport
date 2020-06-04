@@ -1,7 +1,7 @@
 Package: satellitereport
 Type: Package
 Title: SatelliteReport Helper Functions
-Version: 0.1.2
+Version: 0.1.3
 Author: Daniel Antal
 Maintainer: Daniel Antal <daniel.antal@satellitereport.com>
 Description: Some helper functions to facilitate collaboration with satelliterport.com.
