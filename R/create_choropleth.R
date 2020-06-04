@@ -14,7 +14,8 @@
 #' you want to see on map is in the column \code{average_values}, than
 #' use  \code{"average_values"}. The values can be numeric or categorical
 #' variables.
-#' @param unit_text Defaults to \code{NULL}.
+#' @param unit_text Defaults to \code{NULL}. The title caption of the
+#' color (fill) legend.
 #' @param n Number of colour categories if discrete (categorical) colouring
 #' is chosen, defaults to \code{5}.
 #' @param type Defaults to \code{'discrete'} for coloring discrete
@@ -197,6 +198,8 @@ create_choropleth <- function ( dat,
 
     p <- create_base_plot_cat(choropleth_data = choropleth_data,
                               color_palette = color_palette,
+                              na_color = na_color,
+                              unit_text = unit_text,
                               iceland = iceland,
                               are_there_missings = are_there_missings )
   } else {
@@ -208,6 +211,8 @@ create_choropleth <- function ( dat,
       choropleth_data = choropleth_data,
       min_color = min_color,
       max_color = max_color,
+      na_color = na_color,
+      unit_text = unit_text,
       iceland = iceland )
   }
   ## Return choropleth ------------------------------------------

@@ -7,6 +7,7 @@
 create_base_plot_cat(
   choropleth_data,
   color_palette,
+  na_color,
   iceland,
   are_there_missings,
   unit_text
@@ -20,6 +21,10 @@ create_base_plot_cat(
 with categorical variables, make sure that the color_palette has a value
 for each categories except for missing values, and it is named to the
 category name (factor level) as it is found in you \code{values_var}.}
+
+\item{na_color}{Defaults to \code{"grey93"}. This color will be used
+in the color palette for missing values, unless you have explicitly
+set one of the names of the palette to \code{"missing"}.}
 
 \item{iceland}{A logical variable to show Iceland on the map.}
 

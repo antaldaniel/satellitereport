@@ -4,7 +4,14 @@
 \alias{create_base_plot_num}
 \title{Create a numeric choropleth}
 \usage{
-create_base_plot_num(choropleth_data, min_color, max_color, unit_text, iceland)
+create_base_plot_num(
+  choropleth_data,
+  min_color,
+  max_color,
+  na_color,
+  unit_text,
+  iceland
+)
 }
 \arguments{
 \item{choropleth_data}{An sf object with the numerical data in column
@@ -13,6 +20,10 @@ create_base_plot_num(choropleth_data, min_color, max_color, unit_text, iceland)
 \item{min_color}{A color for the minimum values.}
 
 \item{max_color}{A color for the maximum values.}
+
+\item{na_color}{Defaults to \code{"grey93"}. This color will be used
+in the color palette for missing values, unless you have explicitly
+set one of the names of the palette to \code{"missing"}.}
 
 \item{unit_text}{Defaults to \code{NULL}. The title caption of the
 color (fill) legend.}

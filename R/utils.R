@@ -34,6 +34,9 @@ check_dat_input <- function(dat, geo_var, values_var) {
 #' \code{values}.
 #' @param min_color A color for the minimum values.
 #' @param max_color A color for the maximum values.
+#' @param na_color Defaults to \code{"grey93"}. This color will be used
+#' in the color palette for missing values, unless you have explicitly
+#' set one of the names of the palette to \code{"missing"}.
 #' @param unit_text Defaults to \code{NULL}. The title caption of the
 #' color (fill) legend.
 #' @param iceland A logical variable to show Iceland on the map.
@@ -49,6 +52,7 @@ check_dat_input <- function(dat, geo_var, values_var) {
 create_base_plot_num <- function (choropleth_data,
                                   min_color,
                                   max_color,
+                                  na_color,
                                   unit_text,
                                   iceland) {
   base_plot_num <- choropleth_data  %>%
@@ -86,6 +90,9 @@ create_base_plot_num <- function (choropleth_data,
 #' with categorical variables, make sure that the color_palette has a value
 #' for each categories except for missing values, and it is named to the
 #' category name (factor level) as it is found in you \code{values_var}.
+#' @param na_color Defaults to \code{"grey93"}. This color will be used
+#' in the color palette for missing values, unless you have explicitly
+#' set one of the names of the palette to \code{"missing"}.
 #' @param iceland A logical variable to show Iceland on the map.
 #' @param unit_text Defaults to \code{NULL}. The title caption of the
 #' color (fill) legend.
@@ -101,6 +108,7 @@ create_base_plot_num <- function (choropleth_data,
 
 create_base_plot_cat <- function(choropleth_data,
                                  color_palette,
+                                 na_color,
                                  iceland,
                                  are_there_missings,
                                  unit_text) {
