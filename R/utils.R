@@ -1,4 +1,4 @@
-#' Check dat input
+#' Check dat input parameter
 #'
 #' @param dat Eurostat data frame or a data frame derived from
 #'  \code{create_indicator} or \code{create_tables}.
@@ -9,7 +9,9 @@
 #' you want to see on map is in the column \code{average_values}, than
 #' use  \code{"average_values"}. The values can be numeric or categorical
 #' variables.
-#' @keyword internal
+#' @return The function does not return a value, but creates a meaningful
+#' error message if the dat parameter is non-conforming.
+#' @keywords internal
 
 check_dat_input <- function(dat, geo_var, values_var) {
 
@@ -28,9 +30,13 @@ check_dat_input <- function(dat, geo_var, values_var) {
 
 #' Create a numeric choropleth
 #'
-#' @param choropleth_data
+#' @param choropleth_data An sf object with the numerical data in column
+#' \code{values}.
+#' @param min_color A color for the minimum values.
+#' @param max_color A color for the maximum values.
 #' @param iceland A logical variable to show Iceland on the map.
-#' @keyword internal
+#' @return A ggplot object containing the choropleth map.
+#' @keywords internal
 #' @importFrom magrittr `%>%`
 #' @importFrom utils data
 #' @importFrom grDevices colorRampPalette
@@ -41,7 +47,10 @@ check_dat_input <- function(dat, geo_var, values_var) {
 #' @importFrom ggplot2 element_blank xlim ylim guide_legend
 
 
-create_base_plot_num <- function (choropleth_data, iceland) {
+create_base_plot_num <- function (choropleth_data,
+                                  min_color,
+                                  max_color,
+                                  iceland) {
   base_plot_num <- choropleth_data  %>%
     ggplot2::ggplot(data=.) +
     ggplot2::geom_sf(data=.,
@@ -71,10 +80,16 @@ create_base_plot_num <- function (choropleth_data, iceland) {
 
 #' Create a categorical choropleth
 #'
-#' @param choropleth_data
+#' @param choropleth_data An sf object with the categorical data in column
+#' \code{cat}.
+#' @param color_palette A named character vector with colors. If you use this
+#' with categorical variables, make sure that the color_palette has a value
+#' for each categories except for missing values, and it is named to the
+#' category name (factor level) as it is found in you \code{values_var}.
 #' @param iceland A logical variable to show Iceland on the map.
 #' @param are_there_missings A logical variable if missing data is present.
-#' @keyword internal
+#' @keywords internal
+#' @return A ggplot object containing the choropleth map.
 #' @importFrom magrittr `%>%`
 #' @importFrom utils data
 #' @importFrom grDevices colorRampPalette
@@ -85,6 +100,7 @@ create_base_plot_num <- function (choropleth_data, iceland) {
 #' @importFrom ggplot2 element_blank xlim ylim guide_legend
 
 create_base_plot_cat <- function(choropleth_data,
+                                 color_palette,
                                  iceland,
                                  are_there_missings) {
 
