@@ -74,10 +74,11 @@ Style can be one of \code{"fixed"}, \code{"sd"}, \code{"equal"},
 
 \item{iceland}{Show Iceland on the choropleth?  Defaults to
 \code{"if_present"}, which shows Iceland if Icelandic data
-is present.
-See: \code{\link[classInt]{classIntervals}}.}
+is present.}
 }
 \value{
+A ggplot object with a choropleth map.
+
 The function returns a \code{ggplot2} object. You can modify the
 ggplot object, for example, with adding {labs}.
 }
@@ -95,6 +96,8 @@ chreate_choropleth ( your_nuts2_data, level=2, n=5, style="kmeans") +
 }
 }
 \seealso{
+indicator_categories
+
 Other visualisation functions: 
 \code{\link{create_color_palette}()},
 \code{\link{sr_palette}()}

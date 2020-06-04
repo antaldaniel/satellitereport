@@ -45,7 +45,8 @@
 #' @param iceland Show Iceland on the choropleth?  Defaults to
 #' \code{"if_present"}, which shows Iceland if Icelandic data
 #' is present.
-#' See: \code{\link[classInt]{classIntervals}}.
+#' @seealso indicator_categories
+#' @return A ggplot object with a choropleth map.
 #' @importFrom dplyr mutate filter select add_count inner_join
 #' @importFrom dplyr rename full_join anti_join
 #' @importFrom dplyr mutate_if left_join
