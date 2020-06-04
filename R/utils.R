@@ -34,6 +34,8 @@ check_dat_input <- function(dat, geo_var, values_var) {
 #' \code{values}.
 #' @param min_color A color for the minimum values.
 #' @param max_color A color for the maximum values.
+#' @param unit_text Defaults to \code{NULL}. The title caption of the
+#' color (fill) legend.
 #' @param iceland A logical variable to show Iceland on the map.
 #' @return A ggplot object containing the choropleth map.
 #' @keywords internal
@@ -47,6 +49,7 @@ check_dat_input <- function(dat, geo_var, values_var) {
 create_base_plot_num <- function (choropleth_data,
                                   min_color,
                                   max_color,
+                                  unit_text,
                                   iceland) {
   base_plot_num <- choropleth_data  %>%
     ggplot2::ggplot(data=.) +
@@ -84,6 +87,8 @@ create_base_plot_num <- function (choropleth_data,
 #' for each categories except for missing values, and it is named to the
 #' category name (factor level) as it is found in you \code{values_var}.
 #' @param iceland A logical variable to show Iceland on the map.
+#' @param unit_text Defaults to \code{NULL}. The title caption of the
+#' color (fill) legend.
 #' @param are_there_missings A logical variable if missing data is present.
 #' @keywords internal
 #' @return A ggplot object containing the choropleth map.
@@ -97,7 +102,8 @@ create_base_plot_num <- function (choropleth_data,
 create_base_plot_cat <- function(choropleth_data,
                                  color_palette,
                                  iceland,
-                                 are_there_missings) {
+                                 are_there_missings,
+                                 unit_text) {
 
   base_plot_cat <- ggplot2::ggplot(data=choropleth_data)
 
