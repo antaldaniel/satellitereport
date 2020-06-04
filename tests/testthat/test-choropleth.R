@@ -43,8 +43,6 @@ test_with_missings <- data.frame(
   stringsAsFactors = FALSE
 )
 
-
-
 create_choropleth ( dat = test_with_missings,
                     n=5, style ='kmeans')
 

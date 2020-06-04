@@ -4,6 +4,7 @@
 #' of its (perspective) member candidates, the EEA countries, and the United
 #' Kingdom. The geographical information must conform the official \code{geo}
 #' codes of Eurostat.
+#'
 #' @param dat Eurostat data frame or a data frame derived from
 #'  \code{create_indicator} or \code{create_tables}.
 #' @param geo_var The name of the variable that contains the standard
@@ -50,12 +51,6 @@
 #' @importFrom tidyr spread
 #' @importFrom magrittr `%>%`
 #' @importFrom utils data
-#' @importFrom grDevices colorRampPalette
-#' @importFrom ggplot2 ggplot aes geom_sf
-#' @importFrom ggplot2 scale_fill_manual scale_fill_gradient
-#' @importFrom ggplot2 scale_fill_continuous
-#' @importFrom ggplot2 labs theme_light theme guides coord_sf
-#' @importFrom ggplot2 element_blank xlim ylim guide_legend
 #' @importFrom forcats fct_explicit_na fct_relevel
 #' @return The function returns a \code{ggplot2} object. You can modify the
 #' ggplot object, for example, with adding {labs}.
@@ -124,8 +119,9 @@ create_choropleth <- function ( dat,
   add_to_map <- dat %>%
     rename ( geo    = {{ geo_var }},
              values = {{ values_var }})
+
   add_to_map <- add_to_map  %>%
-    select ( all_of(c("geo", "values") ))
+    dplyr::select ( all_of(c("geo", "values") ))
 
   add_to_map <- mutate_if (add_to_map, is.factor, as.character)
   add_to_map_classes <- vapply(add_to_map, class, character(1))
@@ -147,14 +143,10 @@ create_choropleth <- function ( dat,
     add_to_map$cat <- add_to_map$values
   } ## end of finding out choropleth data type
 
-  ## Adding the values to the shapefile of Europe-----------------
-  choropleth_data <- choropleth_map %>%
-    rename ( geo = NUTS_ID) %>%
-    dplyr::left_join(add_to_map, by = 'geo')
 
   ## Make 'missing' a category ----------------------------
-  if ( 'cat' %in% names (choropleth_data)) {
-    choropleth_data <- choropleth_data  %>%
+  if ( 'cat' %in% names (add_to_map) ) {
+    add_to_map <- add_to_map %>%
       dplyr::mutate(
         ## add explicit NA as 'missing'
         cat = forcats::fct_explicit_na(cat, na_level = 'missing')
@@ -166,10 +158,18 @@ create_choropleth <- function ( dat,
       )
   }
 
+  ## Adding the values to the shapefile of Europe-----------------
+  choropleth_data <- choropleth_map %>%
+    rename ( geo = NUTS_ID ) %>%
+    dplyr::left_join(add_to_map, by = 'geo')
+
   ## If necessary, zoom out to include Iceland ---------------------
   if ( class (iceland) == "character" ) {
     if (  ! any( c("true", "false") %in% tolower(iceland)) ) {
-      iceland <- ifelse ( "IS" %in% dat$geo, TRUE, FALSE )
+      iceland <- ifelse (
+        # If any NUTS code starts with IS for Island
+        test = "IS" %in% substr(dat$geo,1,2),
+        yes = TRUE, no = FALSE )
     } else if (tolower(iceland) == 'true') {
       iceland <- TRUE
     }  else  if ( tolower (iceland) == 'false') {
@@ -180,24 +180,34 @@ create_choropleth <- function ( dat,
   ## Coloring for discrete map -----------------------
   if ( type == 'discrete' ) {
 
-      unique_cats <- levels(choropleth_data$cat)[levels(choropleth_data$cat)!= "missing"]
+    unique_cats <- levels(add_to_map$cat)[
+      levels(add_to_map$cat)!= "missing" ]
 
-  if ( is.null(color_palette)) {
-        color_palette <- create_color_palette( n=length(unique_cats) )
+    if ( is.null(color_palette)) {
+      color_palette <- create_color_palette( n=length(unique_cats) )
     }
 
-  color_palette <- c(color_palette, na_color )
-  names (color_palette) <- c(unique_cats, "missing")
+    color_palette <- c(color_palette, na_color )
+    names (color_palette) <- c(unique_cats, "missing")
 
-  are_there_missings <- any(levels(choropleth_data$cat)== "missing" )
+    are_there_missings <- any(levels(choropleth_data$cat)== "missing" )
 
-  p <- create_base_plot_cat(choropleth_data = choropleth_data,
+    choropleth_data <- choropleth_data %>%
+      filter ( !is.na(cat) )
+
+    p <- create_base_plot_cat(choropleth_data = choropleth_data,
+                              color_palette = color_palette,
                               iceland = iceland,
                               are_there_missings = are_there_missings )
   } else {
     ## Create the numeric map -----------------------------------
+    choropleth_data <- choropleth_data %>%
+      filter ( !is.na(values) )
+
     p <- create_base_plot_num(
       choropleth_data = choropleth_data,
+      min_color = min_color,
+      max_color = max_color,
       iceland = iceland )
   }
   ## Return choropleth ------------------------------------------

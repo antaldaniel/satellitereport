@@ -38,14 +38,11 @@ check_dat_input <- function(dat, geo_var, values_var) {
 #' @return A ggplot object containing the choropleth map.
 #' @keywords internal
 #' @importFrom magrittr `%>%`
-#' @importFrom utils data
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 ggplot aes geom_sf
-#' @importFrom ggplot2 scale_fill_manual scale_fill_gradient
-#' @importFrom ggplot2 scale_fill_continuous
+#' @importFrom ggplot2 scale_fill_continuous scale_fill_gradient
 #' @importFrom ggplot2 labs theme_light theme guides coord_sf
 #' @importFrom ggplot2 element_blank xlim ylim guide_legend
-
 
 create_base_plot_num <- function (choropleth_data,
                                   min_color,
@@ -91,11 +88,9 @@ create_base_plot_num <- function (choropleth_data,
 #' @keywords internal
 #' @return A ggplot object containing the choropleth map.
 #' @importFrom magrittr `%>%`
-#' @importFrom utils data
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ggplot2 ggplot aes geom_sf
 #' @importFrom ggplot2 scale_fill_manual scale_fill_gradient
-#' @importFrom ggplot2 scale_fill_continuous
 #' @importFrom ggplot2 labs theme_light theme guides coord_sf
 #' @importFrom ggplot2 element_blank xlim ylim guide_legend
 
