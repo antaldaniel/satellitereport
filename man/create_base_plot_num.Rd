@@ -4,7 +4,7 @@
 \alias{create_base_plot_num}
 \title{Create a numeric choropleth}
 \usage{
-create_base_plot_num(choropleth_data, min_color, max_color, iceland)
+create_base_plot_num(choropleth_data, min_color, max_color, unit_text, iceland)
 }
 \arguments{
 \item{choropleth_data}{An sf object with the numerical data in column
@@ -13,6 +13,9 @@ create_base_plot_num(choropleth_data, min_color, max_color, iceland)
 \item{min_color}{A color for the minimum values.}
 
 \item{max_color}{A color for the maximum values.}
+
+\item{unit_text}{Defaults to \code{NULL}. The title caption of the
+color (fill) legend.}
 
 \item{iceland}{A logical variable to show Iceland on the map.}
 }

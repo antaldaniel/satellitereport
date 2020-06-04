@@ -47,7 +47,8 @@ missing observations in \code{dat}. For example, if your dataset contains
 observations on European Union regions, than it will not contain an
 \code{NA} value or Norwegian regions in the case of \code{FALSE}.}
 
-\item{unit_text}{Defaults to \code{NULL}.}
+\item{unit_text}{Defaults to \code{NULL}. The title caption of the
+color (fill) legend.}
 
 \item{color_palette}{A named character vector with colors. If you use this
 with categorical variables, make sure that the color_palette has a value

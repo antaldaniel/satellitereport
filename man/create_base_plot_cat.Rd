@@ -8,7 +8,8 @@ create_base_plot_cat(
   choropleth_data,
   color_palette,
   iceland,
-  are_there_missings
+  are_there_missings,
+  unit_text
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ category name (factor level) as it is found in you \code{values_var}.}
 \item{iceland}{A logical variable to show Iceland on the map.}
 
 \item{are_there_missings}{A logical variable if missing data is present.}
+
+\item{unit_text}{Defaults to \code{NULL}. The title caption of the
+color (fill) legend.}
 }
 \value{
 A ggplot object containing the choropleth map.
