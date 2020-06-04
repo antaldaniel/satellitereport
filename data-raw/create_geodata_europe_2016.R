@@ -2,8 +2,8 @@ require(sf)
 
 europe_shapefile <- readRDS(file.path("data-raw", "europe_shapefile.rds"))
 geodata_europe_2016 <- sf::st_as_sf (europe_shapefile)
-geodata_europe_2016 <- geodata_europe_2016[, -c("SHAPE_AREA", "SHAPE_LEN")]
-
+geodata_europe_2016 <- geodata_europe_2016[, c("NUTS_ID", "STAT_LEVL_")]
+class  (geodata_europe_2016)
 usethis::use_data ( geodata_europe_2016, internal = FALSE, overwrite = TRUE)
 
 

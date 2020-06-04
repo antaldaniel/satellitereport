@@ -5,7 +5,8 @@
 \alias{geodata_europe_2016}
 \title{The sf File Of NUTS Boundaries in Europe (NUTS2016)}
 \format{
-A data frame with 1951 observations of 3 variables:
+A data.frame with 1951 observations of 2 variables extended with
+a simple feature list column to class of sf:
 \describe{
   \item{NUTS_ID}{The NUTS geocodes}
   \item{STAT_LEVL_}{The NUTS level code, 0,1,2 or 3.}
