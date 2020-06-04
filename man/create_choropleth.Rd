@@ -6,7 +6,6 @@
 \usage{
 create_choropleth(
   dat,
-  level = 0,
   n = 5,
   geo_var = "geo",
   values_var = "values",
@@ -25,9 +24,6 @@ create_choropleth(
 \arguments{
 \item{dat}{Eurostat data frame or a data frame derived from
 \code{create_indicator} or \code{create_tables}.}
-
-\item{level}{Defaults to \code{0}. The NUTS level used to create the
-choropleth chart, i.e. \code{0}, \code{1}, \code{2} or \code{3}.}
 
 \item{n}{Number of colour categories if discrete (categorical) colouring
 is chosen, defaults to \code{5}.}
