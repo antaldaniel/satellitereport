@@ -8,6 +8,7 @@ create_base_plot_cat(
   choropleth_data,
   color_palette,
   na_color,
+  drop_levels,
   iceland,
   are_there_missings,
   unit_text
@@ -26,15 +27,15 @@ category name (factor level) as it is found in you \code{values_var}.}
 in the color palette for missing values, unless you have explicitly
 set one of the names of the palette to \code{"missing"}.}
 
+\item{drop_levels}{Weather to drop categorical levels on the choropleth
+if they are not present in the data. Defaults to \code{FALSE}.}
+
 \item{iceland}{A logical variable to show Iceland on the map.}
 
 \item{are_there_missings}{A logical variable if missing data is present.}
 
 \item{unit_text}{Defaults to \code{NULL}. The title caption of the
 color (fill) legend.}
-
-\item{drop_levels}{Weather to drop categorical levels on the choropleth
-if they are not present in the data. Defaults to \code{FALSE}.}
 }
 \value{
 A ggplot object containing the choropleth map.
