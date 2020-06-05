@@ -9,7 +9,13 @@ A data.frame with 1951 observations of 2 variables extended with
 a simple feature list column to class of sf:
 \describe{
   \item{NUTS_ID}{The NUTS geocodes}
-  \item{STAT_LEVL_}{The NUTS level code, 0,1,2 or 3.}
+  \item{LEVL_CODE}{The NUTS level code, 0,1,2 or 3.}
+  \item{CNTR_CODE}{The NUTS level code, 0,1,2 or 3.}
+  \item{NUTS_NAME}{The NUTS level code, 0,1,2 or 3.}
+  \item{MOUNT_TYPE}{The NUTS level code, 0,1,2 or 3.}
+  \item{URBN_TYPE}{The NUTS level code, 0,1,2 or 3.}
+  \item{COAST_TYPE}{The NUTS level code, 0,1,2 or 3.}
+  \item{FID}{The NUTS level code, 0,1,2 or 3.}#'
   \item{geometry}{A sfc_MULTIPOLYGON of the European country boundaries}
   }
 }
@@ -20,6 +26,12 @@ a simple feature list column to class of sf:
 geodata_europe_2016
 }
 \description{
-The sf File Of NUTS Boundaries in Europe (NUTS2016)
+Reading layer `NUTS_RG_60M_2016_4326' from data source
+NUTS_RG_60M_2016_4326.shp' using driver `ESRI Shapefile'
+Simple feature collection with 2016 features and 8 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: -61.841 ymin: -21.376 xmax: 55.85 ymax: 71.178
+geographic CRS: WGS 84
 }
 \keyword{datasets}

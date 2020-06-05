@@ -50,6 +50,7 @@
 #' @importFrom dplyr mutate filter select add_count inner_join
 #' @importFrom dplyr rename full_join anti_join
 #' @importFrom dplyr mutate_if left_join
+#' @importFrom poorman left_join
 #' @importFrom tidyr spread
 #' @importFrom magrittr `%>%`
 #' @importFrom utils data
@@ -85,6 +86,8 @@ create_choropleth <- function ( dat,
   code16  <- geodata_europe_2016 <- min_color <- max_color <- NULL
   n_category <- n
 
+  geo_var
+  names(dat)
 
   ## checking inputs ------------------------------------------------
   check_dat_input(dat=dat, geo_var=geo_var, values_var=values_var)
@@ -114,7 +117,7 @@ create_choropleth <- function ( dat,
   ## loading map --------------------------------------------------
   utils::data ( "geodata_europe_2016",
                 package = "satellitereport", envir=environment()
-                )
+  )
   choropleth_map <- geodata_europe_2016
 
   add_to_map <- dat %>%
@@ -128,7 +131,7 @@ create_choropleth <- function ( dat,
   add_to_map_classes <- vapply(add_to_map, class, character(1))
 
   ## first numeric values are treated --------------------------
-  if ( "numeric" %in% add_to_map_classes[2] ) {
+  if ( any(c("numeric", "integer") %in% add_to_map_classes[2]) ) {
     if ( type=='discrete' ) {
       # Convert numerical values to a categorical variable
       # and formulate it for a nicely printing color(fill) legend.
@@ -163,7 +166,7 @@ create_choropleth <- function ( dat,
 
   ## Adding the values to the shapefile of Europe-----------------
   choropleth_data <- choropleth_map %>%
-    rename ( geo = NUTS_ID ) %>%
+    dplyr::rename ( geo = NUTS_ID ) %>%
     dplyr::left_join(add_to_map, by = 'geo')
 
   ## If necessary, zoom out to include Iceland ---------------------

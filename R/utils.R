@@ -15,16 +15,16 @@
 
 check_dat_input <- function(dat, geo_var, values_var) {
 
-  if ( ! 'data.frame' %in% class(dat) ) {
+  if ( ! "data.frame" %in% class(dat) ) {
     stop ("Parameter 'dat' must be a data.frame-like object.")
   }
 
   if ( ! values_var %in% names(dat) ) {
-    stop ("Parameter 'values_var='", values_var, "' is not present in 'dat'")
+    stop ("Parameter values_var='", values_var, "' is not present in 'dat'")
   }
 
   if ( ! geo_var %in% names(dat) ) {
-    stop ("Parameter 'geo_var='", geo_var, "' is not present in 'dat'")
+    stop ("Parameter geo_var='", geo_var, "' is not present in 'dat'")
   }
 }
 
