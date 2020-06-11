@@ -50,6 +50,7 @@
 #' @importFrom dplyr mutate filter select add_count inner_join
 #' @importFrom dplyr rename full_join anti_join
 #' @importFrom dplyr mutate_if left_join
+#' @importFrom ggplot2 theme
 #' @importFrom tidyr spread
 #' @importFrom magrittr `%>%`
 #' @importFrom utils data
