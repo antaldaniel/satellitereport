@@ -50,11 +50,11 @@
 #' @importFrom dplyr mutate filter select add_count inner_join
 #' @importFrom dplyr rename full_join anti_join
 #' @importFrom dplyr mutate_if left_join
-#' @importFrom poorman left_join
 #' @importFrom tidyr spread
 #' @importFrom magrittr `%>%`
 #' @importFrom utils data
 #' @importFrom forcats fct_explicit_na fct_relevel
+#' @import sf
 #' @return The function returns a \code{ggplot2} object. You can modify the
 #' ggplot object, for example, with adding {labs}.
 #' @family visualisation functions
@@ -86,9 +86,6 @@ create_choropleth <- function ( dat,
   code16  <- geodata_europe_2016 <- min_color <- max_color <- NULL
   n_category <- n
 
-  geo_var
-  names(dat)
-
   ## checking inputs ------------------------------------------------
   check_dat_input(dat=dat, geo_var=geo_var, values_var=values_var)
   if(!is.null(color_palette)) {
@@ -119,6 +116,7 @@ create_choropleth <- function ( dat,
                 package = "satellitereport", envir=environment()
   )
   choropleth_map <- geodata_europe_2016
+  names(choropleth_map)[2] <- geo_var
 
   add_to_map <- dat %>%
     rename ( geo    = {{ geo_var }},
@@ -165,9 +163,16 @@ create_choropleth <- function ( dat,
   }
 
   ## Adding the values to the shapefile of Europe-----------------
-  choropleth_data <- choropleth_map %>%
-    dplyr::rename ( geo = NUTS_ID ) %>%
-    dplyr::left_join(add_to_map, by = 'geo')
+  choropleth_data <- choropleth_map
+  names (choropleth_data)[2] <- geo_var
+
+  choropleth_data <- left_join(
+      choropleth_data, add_to_map,
+      by = geo_var,
+      copy = TRUE # make sure geometry is copied to the joined object
+    )
+
+
 
   ## If necessary, zoom out to include Iceland ---------------------
   if ( class (iceland) == "character" ) {
