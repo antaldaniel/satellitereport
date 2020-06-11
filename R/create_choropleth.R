@@ -87,6 +87,9 @@ create_choropleth <- function ( dat,
   n_category <- n
 
   ## checking inputs ------------------------------------------------
+  ## internal function, must source(file.path("R", "utils.R"))
+  ## if you are working on the code
+
   check_dat_input(dat=dat, geo_var=geo_var, values_var=values_var)
   if(!is.null(color_palette)) {
     if ( length(color_palette)<n_category & type == "discrete" ){
@@ -98,8 +101,10 @@ create_choropleth <- function ( dat,
 
   ## formating text and legends ----------------------------------------
   unit_text <- if ( is.null(unit_text) ) { unit_text <- ""} else {
-    unit_text <- paste(strwrap(as.character(unit_text), width=20),
-                       collapse="\n")
+    unit_text <- paste(
+      strwrap(as.character(unit_text),
+              width=20),  #maximum number of chars on color legend title
+      collapse="\n")
   }
 
   ## Creating basics of a color palette, if not given --------------
@@ -150,6 +155,8 @@ create_choropleth <- function ( dat,
 
   ## Make 'missing' a category ----------------------------
   if ( 'cat' %in% names (add_to_map) ) {
+    n_category <- length(levels(add_to_map$cat))-1
+
     add_to_map <- add_to_map %>%
       dplyr::mutate(
         ## add explicit NA as 'missing'
