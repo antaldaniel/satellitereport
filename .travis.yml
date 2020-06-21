@@ -1,0 +1,41 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: R
+
+r:
+- release
+- devel
+
+cache: packages
+
+r_build_args: --no-build-vignettes --no-manual --no-resave-data
+r_check_args: --no-build-vignettes --no-manual
+
+env:
+  global:
+  - GITHUB_REPO: antaldaniel/satellitereport
+
+
+r_github_packages:
+  - jimhester/covr
+
+before_install:
+  - pip install --user codecov
+
+warnings_are_errors: false
+latex: false
+os:
+   - linux:
+        dist: trusty
+        sudo: required
+   - osx:
+       osx_image: xcode11.6
+
+notifications:
+  email:
+    - daniel.antal@ceemid.eu
+
+after_success:
+  - R -q -e 'covr::codecov(quiet = FALSE)'
+
+
