@@ -23,7 +23,7 @@ library(ggplot2)
 [![Travis build status](https://travis-ci.com/antaldaniel/satellitereport.svg?branch=master)](https://travis-ci.com/antaldaniel/satellitereport)
 <!-- badges: end -->
 
-The goal of satellitereport is to facilitate cooperation with [satellitereport.com](satellitereport.com). Package documentation: [r.satellitereport.com](https://package.satellitereport.com)
+The goal of satellitereport is to facilitate cooperation with [satellitereport.com](satellitereport.com). Package documentation: [package.satellitereport.com](https://package.satellitereport.com)
 
 ## Installation
 
