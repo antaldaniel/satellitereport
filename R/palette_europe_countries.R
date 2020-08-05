@@ -1,6 +1,6 @@
 #' Return a color for each European country from the SR palette.
 #'
-#' @param eu_countries_4 If \code{TRUE}, returns values for \code{GB-G},
+#' @param europe_countries_4 If \code{TRUE}, returns values for \code{GB-G},
 #' \code{GB-N}, \code{DE-W}, \code{DE-E}.
 #' @return A named vector of color hex strings for each country code.
 #' @family palette constructor functions

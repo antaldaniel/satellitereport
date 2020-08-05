@@ -7,7 +7,7 @@
 palette_europe_countries(europe_countries_4 = FALSE)
 }
 \arguments{
-\item{eu_countries_4}{If \code{TRUE}, returns values for \code{GB-G},
+\item{europe_countries_4}{If \code{TRUE}, returns values for \code{GB-G},
 \code{GB-N}, \code{DE-W}, \code{DE-E}.}
 }
 \value{
