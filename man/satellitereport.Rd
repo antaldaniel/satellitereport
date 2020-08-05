@@ -14,14 +14,22 @@ This package helps cooperation with Satellite Report. \url{http://satelliterepor
 creates printable univariate class intervals from numeric values.
 }
 
-\section{visualisation functions}{
+\section{palette constructor functions}{
 
-
+These functions return a named character vector. The values are
+hex codes of the colors, the names are the European country
+codes.
 \code{\link{create_color_palette}} creates a gradual discrete color
-palette.
-
+palette.\cr
 \code{\link{sr_palette}} returns the satellitereport.com
-color palette.
+color palette.\cr
+\code{\link{sr_palette}} returns the satellitereport.com
+color palette.\cr
+\code{\link{palette_eu_countries}} returns a variation of the
+\code{\link{sr_palette}} resembling national colors.\cr
+\code{\link{palette_europe_countries}} returns a variation of the
+\code{\link{sr_palette}} resembling national colors for EU and
+non-EU countries.\cr
 
 \code{\link{create_choropleth}} will create a ggplot2 object with a map
 of European regions and continous or categorical data visualised on it. It

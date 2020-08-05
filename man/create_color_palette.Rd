@@ -31,8 +31,9 @@ create_color_palette('red', 'white', n=4, reverse_scale =TRUE)
 }
 }
 \seealso{
-Other visualisation functions: 
-\code{\link{create_choropleth}()},
+Other palette constructor functions: 
+\code{\link{palette_eu_countries}()},
+\code{\link{palette_europe_countries}()},
 \code{\link{sr_palette}()}
 }
-\concept{visualisation functions}
+\concept{palette constructor functions}

@@ -21,23 +21,22 @@ dat$values[c(100,200,300,400,500,600,700,800)] <- NA_real_
 
 all_eu_geo_codes <- eurostat::regional_changes_2016 %>%
   dplyr::distinct ( code16 ) %>%
-  dplyr::select(code16) %>%
   filter(!is.na(code16)) %>%
-  unlist()
+  dplyr::pull(code16)
 
-all_geo_codes <-geodata_nuts2$id
+#all_geo_codes <- geodata_nuts2$id
 
 
 test_intervals <- data.frame (
   geo = all_eu_geo_codes,
-  values = rnorm(length(all_eu_geo_codes ), mean = 50, sd = 15),
+  values = rnorm(length(all_eu_geo_codes), mean = 50, sd = 15),
   row.names = NULL
 )
 
 test_with_missings <- data.frame(
-  geo = all_geo_codes,
-  values = ifelse(all_geo_codes%in%all_eu_geo_codes,
-                  rnorm(length(all_geo_codes ), mean=70, sd=4),
+  geo = all_eu_geo_codes,
+  values = ifelse(all_eu_geo_codes%in%all_eu_geo_codes,
+                  rnorm(length(all_eu_geo_codes ), mean=70, sd=4),
                   NA_real_),
   row.names=NULL,
   stringsAsFactors = FALSE
@@ -47,8 +46,8 @@ create_choropleth ( dat = test_with_missings,
                     n=5, style ='kmeans')
 
 test_with_categories <- data.frame(
-  geo = all_geo_codes,
-  values = round(runif(n = length(all_geo_codes), min = 1, max =5),0),
+  geo = all_eu_geo_codes,
+  values = round(runif(n = length(all_eu_geo_codes), min = 1, max =5),0),
   row.names=NULL,
   stringsAsFactors = FALSE
 )
@@ -70,8 +69,8 @@ create_choropleth ( dat = test_with_categories,
 
 
 test_with_num_categories <- data.frame(
-  geo = all_geo_codes,
-  values = round(runif(n = length(all_geo_codes), min = 1, max =5),0),
+  geo = all_eu_geo_codes,
+  values = round(runif(n = length(all_eu_geo_codes), min = 1, max =5),0),
   row.names=NULL,
   stringsAsFactors = FALSE
 )

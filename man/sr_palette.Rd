@@ -11,7 +11,7 @@ sr_palette(ext = FALSE)
 to \code{FALSE}.}
 }
 \value{
-The SatellitReport color palette designed by Endre Koronczi.
+The Satellit Report color palette designed by Endre Koronczi.
 }
 \description{
 SR Color Palette
@@ -23,8 +23,9 @@ sr_palette(ext=TRUE)
 }
 }
 \seealso{
-Other visualisation functions: 
-\code{\link{create_choropleth}()},
-\code{\link{create_color_palette}()}
+Other palette constructor functions: 
+\code{\link{create_color_palette}()},
+\code{\link{palette_eu_countries}()},
+\code{\link{palette_europe_countries}()}
 }
-\concept{visualisation functions}
+\concept{palette constructor functions}

@@ -11,17 +11,15 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-require(eurostat)
-require(dplyr)
-require(ggplot2)
-require(badgecreatr)
+library(eurostat)
+library(dplyr)
+library(ggplot2)
 ```
 
 # satellitereport
 
 <!-- badges: start -->
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)[![license](https://img.shields.io/badge/license-AGPL--3-lightgrey.svg)](https://choosealicense.com/licenses/agpl-3.0/)[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
-
 [![Travis build status](https://travis-ci.com/antaldaniel/satellitereport.svg?branch=master)](https://travis-ci.com/antaldaniel/satellitereport)
 <!-- badges: end -->
 
@@ -61,8 +59,6 @@ create_choropleth ( dat = test_intervals,
   ggplot2::labs( title = "Random Numbers Over NUTS-2 Regions", 
                  subtitle = "This is a demonstration of the function",
                  caption = "This is the caption text")
-
-
 ```
 
 ## Code of Conduct

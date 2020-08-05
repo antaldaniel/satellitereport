@@ -6,7 +6,7 @@
 #' @param base_color Defaults to \code{"#00348A"}.
 #' @param min_color Defaults to \code{"grey90"}.
 #' @param reverse_scale Defaults to \code{FALSE}.
-#' @family visualisation functions
+#' @family palette constructor functions
 #' @importFrom grDevices colorRampPalette
 #' @examples {
 #' create_color_palette(base_color = 'red', min_color = 'white', n=3)

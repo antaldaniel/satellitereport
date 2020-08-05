@@ -97,9 +97,5 @@ chreate_choropleth ( your_nuts2_data, level=2, n=5, style="kmeans") +
 }
 \seealso{
 indicator_categories
-
-Other visualisation functions: 
-\code{\link{create_color_palette}()},
-\code{\link{sr_palette}()}
 }
 \concept{visualisation functions}

@@ -92,6 +92,7 @@ create_choropleth <- function ( dat,
   ## if you are working on the code
 
   check_dat_input(dat=dat, geo_var=geo_var, values_var=values_var)
+
   if(!is.null(color_palette)) {
     if ( length(color_palette)<n_category & type == "discrete" ){
       stop ("There are not enough colors for the discrete choropleth.")
@@ -121,8 +122,9 @@ create_choropleth <- function ( dat,
   utils::data ( "geodata_europe_2016",
                 package = "satellitereport", envir=environment()
   )
+
   choropleth_map <- geodata_europe_2016
-  names(choropleth_map)[2] <- geo_var
+  #names(choropleth_map)[2] <- geo_var
 
   add_to_map <- dat %>%
     rename ( geo    = {{ geo_var }},
@@ -172,21 +174,19 @@ create_choropleth <- function ( dat,
 
   ## Adding the values to the shapefile of Europe-----------------
   choropleth_data <- choropleth_map
-  names (choropleth_data)[2] <- geo_var
+  names (choropleth_data)[2] <- "geo"
 
   choropleth_data <- left_join(
       choropleth_data, add_to_map,
-      by = geo_var,
+      by = "geo",
       copy = TRUE # make sure geometry is copied to the joined object
     )
-
-
 
   ## If necessary, zoom out to include Iceland ---------------------
   if ( class (iceland) == "character" ) {
     if (  ! any( c("true", "false") %in% tolower(iceland)) ) {
       iceland <- ifelse (
-        # If any NUTS code starts with IS for Island
+        # If any NUTS code starts with IS for Iceland
         test = "IS" %in% substr(dat$geo,1,2),
         yes = TRUE, no = FALSE )
     } else if (tolower(iceland) == 'true') {
@@ -202,11 +202,11 @@ create_choropleth <- function ( dat,
     unique_cats <- levels(add_to_map$cat)[
       levels(add_to_map$cat)!= "missing" ]
 
-    if ( is.null(color_palette)) {
+    if ( is.null(color_palette) ) {
       color_palette <- create_color_palette( n=length(unique_cats) )
     }
 
-    color_palette <- c(color_palette, na_color )
+    color_palette <- c( color_palette, na_color )
     names (color_palette) <- c(unique_cats, "missing")
 
     are_there_missings <- any(levels(choropleth_data$cat)== "missing" )

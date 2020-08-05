@@ -12,9 +12,6 @@ gmr <- readr::read_csv("../regions/data-raw/Global_Mobility_Report.csv")
 gmr_france <- gmr %>%
   filter ( country_region_code == "FR")
 
-View ( google_nuts_matchtable )
-View (gmr_france )
-names ( gmr )
 europe <- gmr %>%
   mutate ( sub_region_1 = ifelse (nchar(sub_region_1)<2,
                                   country_region,
@@ -35,7 +32,6 @@ europe <- gmr %>%
                  names_to = "location_type",
                  values_to = "values")
 
-names (google_nuts_matchtable)
 
 gmr_nuts <- europe %>%
   left_join ( google_nuts_matchtable %>%
@@ -52,12 +48,10 @@ example <-  gmr_nuts %>%
   filter ( location_type == "workplaces") %>%
   filter ( !is.na(code_2016))
 
-names (example)
-library(regions)
+
 create_choropleth( dat = example,
                    geo_var = "code_2016",
                    values_var = "values")
 
 satellitereport:::check_dat_input(dat, "code_2016", "values")
 
-cbind ( choropleth_map,

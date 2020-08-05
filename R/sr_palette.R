@@ -2,8 +2,8 @@
 #'
 #' @param ext Should the original 12 color palette be extended? Defaults
 #' to \code{FALSE}.
-#' @return The SatellitReport color palette designed by Endre Koronczi.
-#' @family visualisation functions
+#' @return The Satellit Report color palette designed by Endre Koronczi.
+#' @family palette constructor functions
 #' @examples{
 #' sr_palette()
 #' sr_palette(ext=TRUE)
