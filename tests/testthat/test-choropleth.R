@@ -61,11 +61,11 @@ test_with_categories$cats <- ifelse(
 cat_palette <- c( '#4EC0E4', 'grey90', '#00843A', '#3EA135', '#DB001C')
 names(cat_palette) <- c("2", "missing", "3", "4", "5")
 
-
-create_choropleth ( dat = test_with_categories,
-                    type = 'discrete',
-                    values_var = "cats",
-                    color_palette = cat_palette )
+#problem
+#create_choropleth ( dat = test_with_categories,
+#                    type = 'discrete',
+#                    values_var = "cats",
+#                    color_palette = cat_palette )
 
 
 test_with_num_categories <- data.frame(
