@@ -37,5 +37,3 @@ notifications:
 
 after_success:
   - R -q -e 'covr::codecov(quiet = FALSE)'
-
-

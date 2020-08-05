@@ -22,10 +22,10 @@
 #' \code{\link{palette_europe_countries}} returns a variation of the
 #' \code{\link{sr_palette}} resembling national colors for EU and
 #' non-EU countries.\cr
-#'
+#' @section visualization functions:
 #' \code{\link{create_choropleth}} will create a ggplot2 object with a map
-#' of European regions and continous or categorical data visualised on it. It
-#' can convert continous (numeric) data into categories.
+#' of European regions and continuous or categorical data visualised on it. It
+#' can convert continuous (numeric) data into categories.
 #' @docType package
 #' @name satellitereport
 NULL
