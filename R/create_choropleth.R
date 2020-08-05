@@ -54,6 +54,7 @@
 #' @importFrom tidyr spread
 #' @importFrom magrittr `%>%`
 #' @importFrom utils data
+#' @importFrom tidyselect all_of
 #' @importFrom forcats fct_explicit_na fct_relevel
 #' @import sf
 #' @return The function returns a \code{ggplot2} object. You can modify the

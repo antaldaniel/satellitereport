@@ -55,6 +55,8 @@ create_base_plot_num <- function (choropleth_data,
                                   na_color,
                                   unit_text,
                                   iceland) {
+  . <- values <- NULL
+
   base_plot_num <- choropleth_data  %>%
     ggplot2::ggplot(data=.) +
     ggplot2::geom_sf(data=.,
