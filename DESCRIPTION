@@ -12,7 +12,7 @@ Authors@R:
 Maintainer: Daniel Antal <daniel.antal@satellitereport.com>
 Description: Some helper functions to facilitate collaboration with 
     \href{http://satellitereport.com}{Satellite Report}.
-License: AGPL-3
+License: AGPL-3 + file LICENSE
 URL: http://package.satellitereport.com/
 Encoding: UTF-8
 LazyData: true
