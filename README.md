@@ -14,7 +14,7 @@ status](https://travis-ci.com/antaldaniel/satellitereport.svg?branch=master)](ht
 
 The goal of satellitereport is to facilitate cooperation with
 [satellitereport.com](satellitereport.com). Package documentation:
-[r.satellitereport.com](https://r.satellitereport.com)
+[r.satellitereport.com](https://package.satellitereport.com)
 
 ## Installation
 

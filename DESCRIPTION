@@ -2,10 +2,18 @@ Package: satellitereport
 Type: Package
 Title: SatelliteReport Helper Functions
 Version: 0.1.4
-Author: Daniel Antal
+Authors@R: 
+    c(person(given = "Daniel",
+           family = "Antal",
+           role = c("aut", "cre"),
+           email = "daniel.antal@ceemid.eu",
+           comment = c(ORCID = "0000-0001-7513-6760"))
+      )
 Maintainer: Daniel Antal <daniel.antal@satellitereport.com>
-Description: Some helper functions to facilitate collaboration with satelliterport.com.
+Description: Some helper functions to facilitate collaboration with 
+    \href{http://satellitereport.com}{Satellite Report}.
 License: AGPL-3
+URL: http://package.satellitereport.com/
 Encoding: UTF-8
 LazyData: true
 Imports: 
